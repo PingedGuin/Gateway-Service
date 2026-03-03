@@ -11,6 +11,7 @@ public class UserInfoRepository {
     }
 
     public boolean isUserExist(LoginDto request) {
+        // check if user with password exist
         return false;
     }
 }
