@@ -3,6 +3,7 @@ package dev.dre.chatappserver.apis.register;
 import dev.dre.chatappserver.ChatAppServerApplication;
 import dev.dre.chatappserver.dtos.register.login.LoginDto;
 import dev.dre.chatappserver.security.auth.service.LoginService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,13 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody LoginDto request, HttpServletResponse response) {
 
         var responseDto = loginService.login(request);
-
         if (responseDto == null) return ResponseEntity.badRequest().body("user not found");
-        response.addCookie(responseDto.getCookie());
+
+        Cookie cookie = new Cookie("jwt", responseDto.getToken());
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
         return ResponseEntity.ok().body("logged in");
 
     }
