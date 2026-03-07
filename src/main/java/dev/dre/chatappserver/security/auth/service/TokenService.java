@@ -1,6 +1,11 @@
 package dev.dre.chatappserver.security.auth.service;
 
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +14,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import static java.security.KeyRep.Type.SECRET;
+
 @Slf4j
 @Service
 public class TokenService {
     public String genrateAccessToken(String userId,String sessionId,String expireAt) {
         //todo add role for the user in include it in the token
         try {
+            String SECRET = "super-long-random-secret-key-256-bits"; // todo change this
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(expireAt);
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
@@ -23,6 +32,15 @@ public class TokenService {
                     .expirationTime(date)
                     .issueTime(new Date())
                     .build();
+            JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+
+            SignedJWT jwt = new SignedJWT(header, claims);
+
+            JWSSigner signer = new MACSigner(SECRET);
+
+            jwt.sign(signer);
+
+            return jwt.serialize();
 
         } catch (Exception e) {
             log.error("error parsing date",e);
