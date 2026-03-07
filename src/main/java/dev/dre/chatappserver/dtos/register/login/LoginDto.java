@@ -9,5 +9,4 @@ import org.springframework.boot.web.server.Cookie;
 public class LoginDto {
     String username;
     String password;
-    Cookie cookie;
 }

@@ -42,7 +42,8 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("com.github.ben-manes.caffeine:caffeine")
-}
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("com.nimbusds:nimbus-jose-jwt:10.8")}
 
 tasks.withType<Test> {
     useJUnitPlatform()

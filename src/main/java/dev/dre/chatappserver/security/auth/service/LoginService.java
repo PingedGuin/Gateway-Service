@@ -4,7 +4,6 @@ import dev.dre.chatappserver.database.entitys.UserSessionEntity;
 import dev.dre.chatappserver.database.repository.UserInfoRepository;
 import dev.dre.chatappserver.dtos.register.login.LoginDto;
 import dev.dre.chatappserver.dtos.register.login.LoginResponseDto;
-import jakarta.servlet.http.Cookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,22 +13,23 @@ public class LoginService {
     private final SessionService sessionService;
     private final TokenService tokenService;
 
-    public LoginService(UserInfoRepository userInfoRepository, TokenService tokenService) {
+    public LoginService(UserInfoRepository userInfoRepository, TokenService tokenService, SessionService sessionService) {
         this.userInfoRepository = userInfoRepository;
         this.tokenService = tokenService;
-        this.sessionService = new SessionService();
+        this.sessionService = sessionService;
     }
 
     @Transactional
     public LoginResponseDto login(LoginDto request) {
-        if (request == null || !userInfoRepository.isUserExist(request)) {
+        var info = userInfoRepository.checkUserInfo(request.getUsername(), request.getPassword()).orElse(null);
+        if (info == null) {
             return null;
         }
         // todo - add log instead of null return
 
-        String token = tokenService.generateToken(request.getUsername());
-        sessionService.getOrCreate(new UserSessionEntity(request.getUsername(), token, true));
-        return new LoginResponseDto(token, request.getUsername());
+        var session = sessionService.getOrCreateSession(new UserSessionEntity(request.getUsername(),true));
+        var accasToken = tokenService.genrateAccessToken(info.getUsername(),session.getSessionId(),session.getExpiresAt());
+        return new LoginResponseDto(accasToken, request.getUsername());
     }
 
     public void logout(String token) {

@@ -1,17 +1,12 @@
 package dev.dre.chatappserver.database.repository;
 
-import dev.dre.chatappserver.dtos.register.login.LoginDto;
-import org.springframework.stereotype.Repository;
+import dev.dre.chatappserver.database.UserInfo;
+import dev.dre.chatappserver.dtos.register.login.LoginResponseDto;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class UserInfoRepository {
+import java.util.Optional;
 
-    public void save() {
-
-    }
-
-    public boolean isUserExist(LoginDto request) {
-        // check if user with password exist
-        return false;
-    }
+public interface UserInfoRepository extends JpaRepository <UserInfo, Long> {
+    Optional<LoginResponseDto> findByUsername(String username);
+    Optional<LoginResponseDto> checkUserInfo(String username, String password);
 }

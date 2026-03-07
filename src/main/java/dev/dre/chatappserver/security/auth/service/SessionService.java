@@ -1,11 +1,21 @@
 package dev.dre.chatappserver.security.auth.service;
 
 import dev.dre.chatappserver.database.entitys.UserSessionEntity;
-import org.springframework.cache.annotation.Cacheable;
+import dev.dre.chatappserver.database.repository.SessionRepository;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SessionService {
-        @Cacheable("userSession")
-    public void getOrCreate(UserSessionEntity userSessionEntity) {
-        // todo make data getter that contain cheche if dont have let it get from db just like boogie
+    private final SessionRepository sessionRepository;
+
+    public SessionService(SessionRepository sessionRepository) {
+        this.sessionRepository = sessionRepository;
+    }
+
+    @CachePut(value = "userSession", key = "#userSessionEntity.userId")
+    public UserSessionEntity getOrCreateSession(UserSessionEntity userSessionEntity) {
+        return sessionRepository.findByUserId(userSessionEntity.getUserId())
+                .orElseGet(() -> sessionRepository.save(userSessionEntity));
     }
 }

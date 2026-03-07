@@ -2,6 +2,7 @@ package dev.dre.chatappserver.database.entitys;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
@@ -11,7 +12,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "user_sessions")
 public class UserSessionEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,11 +35,13 @@ public class UserSessionEntity {
     public void onCreate() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.expiresAt = new Timestamp(System.currentTimeMillis() + 3600000);
+        this.sessionId = java.util.UUID.randomUUID().toString();
     }
-
-    public UserSessionEntity(String userId, String sessionId, boolean active) {
+    public String getExpiresAt() {
+        return expiresAt.toString();
+    }
+    public UserSessionEntity(String userId,boolean active) {
         this.userId = userId;
-        this.sessionId = sessionId;
         this.active = active;
     }
 

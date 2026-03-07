@@ -12,7 +12,7 @@ public class UserInfoController {
     public ResponseEntity<?> getUserInfo(@RequestHeader(value = "Authorization") String token) {
         var tokenService = ChatAppServerApplication.getTokenService();
         var userId = tokenService.extractUserId(token);
-
+        //todo change this
         return null;
     }
 }
