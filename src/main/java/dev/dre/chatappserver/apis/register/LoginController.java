@@ -1,6 +1,5 @@
 package dev.dre.chatappserver.apis.register;
 
-import dev.dre.chatappserver.ChatAppServerApplication;
 import dev.dre.chatappserver.dtos.register.login.LoginDto;
 import dev.dre.chatappserver.security.auth.service.LoginService;
 import jakarta.servlet.http.Cookie;

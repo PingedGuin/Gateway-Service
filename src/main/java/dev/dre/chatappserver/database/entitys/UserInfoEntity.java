@@ -1,5 +1,6 @@
 package dev.dre.chatappserver.database.entitys;
 
+import dev.dre.chatappserver.dtos.register.RegisterRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,4 +21,9 @@ public class UserInfoEntity {
     @Column(nullable = false)
     private String password;
 
+    public UserInfoEntity(RegisterRequest request) {
+        this.username = request.getUsername();
+        this.gmail = request.getEmail();
+        this.password = request.getPassword();
+    }
 }

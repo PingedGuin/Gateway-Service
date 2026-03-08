@@ -9,4 +9,8 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String email;
+
+    public Boolean IsEmpty(){
+        return username == null || password == null || email == null;
+    }
 }
