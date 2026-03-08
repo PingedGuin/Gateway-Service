@@ -1,12 +1,10 @@
 package dev.dre.chatappserver.database.repository;
 
-import dev.dre.chatappserver.database.UserInfo;
-import dev.dre.chatappserver.dtos.register.login.LoginResponseDto;
+import dev.dre.chatappserver.database.entitys.UserInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserInfoRepository extends JpaRepository <UserInfo, Long> {
-    Optional<LoginResponseDto> findByUsername(String username);
-    Optional<LoginResponseDto> checkUserInfo(String username, String password);
+public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Long> {
+    Optional<UserInfoEntity> findByUsername(String username, String password);
 }

@@ -13,7 +13,7 @@ public class CacheConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("userSession");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("userSession","userInfo");
         cacheManager.setCaffeine(
                 Caffeine.newBuilder()
                         .expireAfterWrite(30, TimeUnit.MINUTES)

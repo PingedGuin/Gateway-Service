@@ -24,7 +24,7 @@ public class LoginController {
         var responseDto = loginService.login(request);
         if (responseDto == null) return ResponseEntity.badRequest().body("user not found");
 
-        Cookie cookie = new Cookie("jwt", responseDto.getToken());
+        Cookie cookie = new Cookie("jwt", responseDto.getAccessToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60);

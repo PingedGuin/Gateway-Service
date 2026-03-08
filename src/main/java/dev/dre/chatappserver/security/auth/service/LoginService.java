@@ -4,6 +4,7 @@ import dev.dre.chatappserver.database.entitys.UserSessionEntity;
 import dev.dre.chatappserver.database.repository.UserInfoRepository;
 import dev.dre.chatappserver.dtos.register.login.LoginDto;
 import dev.dre.chatappserver.dtos.register.login.LoginResponseDto;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +21,9 @@ public class LoginService {
     }
 
     @Transactional
+    @Cacheable("userInfo")
     public LoginResponseDto login(LoginDto request) {
-        var info = userInfoRepository.checkUserInfo(request.getUsername(), request.getPassword()).orElse(null);
+        var info = userInfoRepository.findByUsername(request.getUsername(), request.getPassword()).orElse(null);
         if (info == null) {
             return null;
         }

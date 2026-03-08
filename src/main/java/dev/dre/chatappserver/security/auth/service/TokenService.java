@@ -10,16 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import static java.security.KeyRep.Type.SECRET;
 
 @Slf4j
 @Service
 public class TokenService {
-    public String genrateAccessToken(String userId,String sessionId,String expireAt) {
+    public String genrateAccessToken(String userId, String sessionId, String expireAt) {
         //todo add role for the user in include it in the token
         try {
             String SECRET = "super-long-random-secret-key-256-bits"; // todo change this
@@ -33,9 +30,7 @@ public class TokenService {
                     .issueTime(new Date())
                     .build();
             JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
-
             SignedJWT jwt = new SignedJWT(header, claims);
-
             JWSSigner signer = new MACSigner(SECRET);
 
             jwt.sign(signer);
@@ -43,20 +38,23 @@ public class TokenService {
             return jwt.serialize();
 
         } catch (Exception e) {
-            log.error("error parsing date",e);
+            log.error("error parsing date", e);
         }
 
         return userId + sessionId + expireAt; // todo change this
     }
+
     public boolean validateToken(String token) {
         if (token.isBlank()) return false;
 
         return token.equals("token");
     }
-    public String extractUserId(String token){
+
+    public String extractUserId(String token) {
         return "1";
     }
-    public Boolean isTokenExpired(String token){
+
+    public Boolean isTokenExpired(String token) {
         return false;
     }
     //todo
