@@ -25,7 +25,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -33,7 +32,6 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-websocket-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -43,7 +41,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    implementation("com.nimbusds:nimbus-jose-jwt:10.8")}
+    implementation("com.nimbusds:nimbus-jose-jwt:10.8")
+    implementation("org.springframework.boot:spring-boot-starter-flyway:4.0.2")
+    implementation("org.flywaydb:flyway-database-postgresql")
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()

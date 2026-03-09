@@ -3,9 +3,11 @@ package dev.dre.chatappserver.database.entitys;
 import dev.dre.chatappserver.dtos.register.RegisterRequest;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "user_info")
 public class UserInfoEntity {
     @Id

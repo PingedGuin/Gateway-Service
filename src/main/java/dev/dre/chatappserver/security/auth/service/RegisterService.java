@@ -14,7 +14,7 @@ public class RegisterService {
     }
 
     public boolean handleRegister(RegisterRequest request) {
-        if (userInfoRepository.findByGmailAndUsername(request.getEmail(), request.getEmail())) return false;
+        if (userInfoRepository.existsByGmailAndUsername(request.getEmail(), request.getEmail())) return false;
 
         if (request.IsEmpty()) return false;
 

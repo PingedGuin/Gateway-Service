@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Long> {
     Optional<UserInfoEntity> findByUsername(String username, String password);
-    boolean findByGmailAndUsername(String gmail, String username);
-}
+    boolean existsByGmailAndUsername(String gmail, String username);}
