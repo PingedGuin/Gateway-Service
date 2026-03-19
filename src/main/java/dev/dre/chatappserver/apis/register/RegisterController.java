@@ -1,6 +1,5 @@
 package dev.dre.chatappserver.apis.register;
 
-import dev.dre.chatappserver.database.repository.UserInfoRepository;
 import dev.dre.chatappserver.dtos.register.RegisterRequest;
 import dev.dre.chatappserver.security.auth.service.RegisterService;
 import org.springframework.http.ResponseEntity;
