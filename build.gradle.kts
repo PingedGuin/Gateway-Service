@@ -44,6 +44,10 @@ dependencies {
     implementation("com.nimbusds:nimbus-jose-jwt:10.8")
     implementation("org.springframework.boot:spring-boot-starter-flyway:4.0.2")
     implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("io.netty:netty-all:4.1.99.Final")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("io.projectreactor:reactor-core:3.5.9")
+    implementation("io.projectreactor.netty:reactor-netty:1.1.7")
 }
 
 

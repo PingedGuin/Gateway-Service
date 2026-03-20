@@ -1,4 +1,4 @@
-package webSocket;
+package dev.dre.chatappserver.apis.Messages;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
