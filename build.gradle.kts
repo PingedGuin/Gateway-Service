@@ -48,6 +48,7 @@ dependencies {
     implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation("io.projectreactor:reactor-core:3.5.9")
     implementation("io.projectreactor.netty:reactor-netty:1.1.7")
+    implementation ("org.springframework.boot:spring-boot-starter-amqp")
 }
 
 

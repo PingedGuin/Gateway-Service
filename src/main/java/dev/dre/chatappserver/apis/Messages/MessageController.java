@@ -17,6 +17,10 @@ public class MessageController {
 
     @MessageMapping("/sendMessage")
     public SocketMessage send(@Payload SocketMessage msg) {
+        if(msg.getContent() == null || msg.getContent().isEmpty()) {
+            throw new RuntimeException("Invalid message");
+        }
+
         System.out.println("Message received: " + msg.getContent());
         messagingTemplate.convertAndSend("/topic/" + msg.getRoom(), msg);
         return msg;
