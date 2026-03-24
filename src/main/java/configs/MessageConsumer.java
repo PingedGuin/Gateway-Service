@@ -47,6 +47,7 @@ public class MessageConsumer {
             log.error("Fatal error → sent to DLQ: {}", e.getMessage());
         }
     }
+
     private void processMessage(String body) {
 
         if (body.contains("fail")) throw new IllegalStateException("Business failure");

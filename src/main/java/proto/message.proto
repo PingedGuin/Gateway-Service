@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package message;
+
+service MessageService {
+  rpc SendMessage (SendMessageRequest) returns (MessageResponse);
+  rpc DeleteMessage (DeleteMessageRequest) returns (MessageResponse);
+  rpc EditMessage (EditMessageRequest) returns (MessageResponse);
+}
+
+enum MessageType {
+  TEXT = 0;
+  IMAGE = 1;
+  FILE = 2;
+}
+
+message SendMessageRequest {
+  string channel_id = 1;
+  string user_id = 2;
+  string content = 3;
+  MessageType type = 4;
+}
+
+message DeleteMessageRequest {
+  string message_id = 1;
+  string user_id = 2;
+}
+
+message EditMessageRequest {
+  string message_id = 1;
+  string new_content = 2;
+  string user_id = 3;
+}
+
+message MessageResponse {
+  bool success = 1;
+  string message = 2;
+}
