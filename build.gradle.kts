@@ -4,7 +4,7 @@ plugins {
     java
     id("org.springframework.boot") version "4.0.1"
     id("io.spring.dependency-management") version "1.1.7"
-    id("com.google.protobuf") version "0.9.5"
+    id("com.google.protobuf") version "0.9.4"
 }
 
 group = "dev.dre"
@@ -39,30 +39,25 @@ dependencies {
     implementation("com.nimbusds:nimbus-jose-jwt:10.8")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
     implementation("org.flywaydb:flyway-database-postgresql")
-    implementation("org.springframework.grpc:spring-grpc-server-spring-boot-starter")
-    implementation("io.grpc:grpc-services:1.63.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.grpc:spring-grpc-test")
-}
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.grpc:spring-grpc-dependencies:${property("springGrpcVersion")}")
-    }
+    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
+    implementation("io.grpc:grpc-protobuf:1.62.2")
+    implementation("io.grpc:grpc-stub:1.62.2")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }
-
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.30.0"
+        artifact = "com.google.protobuf:protoc:3.21.7"
     }
 
     plugins {
         create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.63.0"
-        }
+            artifact = "io.grpc:protoc-gen-grpc-java:1.46.0"
+            }
     }
 
     generateProtoTasks {

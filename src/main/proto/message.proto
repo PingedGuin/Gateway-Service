@@ -13,7 +13,6 @@ enum MessageType {
   IMAGE = 1;
   FILE = 2;
 }
-
 message SendMessageRequest {
   string channel_id = 1;
   string user_id = 2;
