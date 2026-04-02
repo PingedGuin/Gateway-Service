@@ -18,7 +18,7 @@ public class UserInfoController {
     @GetMapping("/api/user/@me")
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
         var userId = tokenService.extractUserId(authentication.getName());
-        //todo change this
+
         return ResponseEntity.ok("user info");
     }
 
