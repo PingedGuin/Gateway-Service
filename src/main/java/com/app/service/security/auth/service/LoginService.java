@@ -1,16 +1,16 @@
 package com.app.service.security.auth.service;
 
 import com.app.service.database.entitys.UserSessionEntity;
-import com.app.service.database.repository.UserInfoRepository;
 import com.app.service.dtos.register.login.LoginDto;
 import com.app.service.dtos.register.login.LoginResponseDto;
+import com.app.user.repository.UserInfoRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoginService {
-    private final UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository; //todo idk if this correct or it should take the data from other table
     private final SessionService sessionService;
     private final TokenService tokenService;
 

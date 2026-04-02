@@ -7,5 +7,4 @@ public class UpdateUserRequest {
     String username;
     String gmail;
     String password;
-
 }
