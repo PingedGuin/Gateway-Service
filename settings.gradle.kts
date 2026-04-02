@@ -1,1 +1,1 @@
-rootProject.name = "Gateway-Service"
+rootProject.name = "ChatAppServer"

@@ -41,6 +41,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("io.projectreactor:reactor-core:3.5.9")
+    implementation("io.projectreactor.netty:reactor-netty:1.1.13")
 }
 
 
