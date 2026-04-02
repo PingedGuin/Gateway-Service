@@ -14,16 +14,6 @@ public class UserService {
     }
     //todo add cheche tho
 
-    public UserInfo getUserInfo(String username) {
-        return new UserInfo("username", "gmail");
-    }
-
-    public UserInfo getUser(Long id) {
-        UserInfoEntity entity = userInfoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return entityToDto(entity);
-    }
 
     private UserInfo entityToDto(UserInfoEntity entity) {
         return new UserInfo(entity.getUsername(), entity.getGmail());

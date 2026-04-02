@@ -4,6 +4,7 @@ import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.extern.slf4j.Slf4j;
@@ -45,18 +46,36 @@ public class TokenService {
     }
 
     public boolean validateToken(String token) {
-        if (token.isBlank()) return false;
-
-        return token.equals("token");
+        try {
+            String SECRET = "super-long-random-secret-key-256-bits";
+            SignedJWT jwt = SignedJWT.parse(token);
+            return jwt.verify(new MACVerifier(SECRET)) &&
+                    new Date().before(jwt.getJWTClaimsSet().getExpirationTime());
+        } catch (Exception e) {
+            log.error("Invalid token", e);
+            return false;
+        }
     }
-
     public String extractUserId(String token) {
-        return "1";
+        try {
+            SignedJWT jwt = SignedJWT.parse(token);
+            return jwt.getJWTClaimsSet().getSubject();
+        } catch (Exception e) {
+            log.error("Failed to extract userId", e);
+            return null;
+        }
+    }
+    public Boolean isTokenExpired(String token) {
+        try {
+            SignedJWT jwt = SignedJWT.parse(token);
+            Date expiration = jwt.getJWTClaimsSet().getExpirationTime();
+            return new Date().after(expiration);
+        } catch (Exception e) {
+            log.error("Error checking token expiration", e);
+            return true;
+        }
     }
 
-    public Boolean isTokenExpired(String token) {
-        return false;
-    }
     //todo
     // - JWT verification
     // - DB lookup
