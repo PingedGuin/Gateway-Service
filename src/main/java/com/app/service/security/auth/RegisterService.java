@@ -1,7 +1,7 @@
 package com.app.service.security.auth;
 
-import com.app.service.database.entitys.UserInfoEntity;
-import com.app.service.database.repository.UserInfoRepository;
+import com.app.user.data.entity.UserInfoEntity;
+import com.app.user.repository.UserInfoRepository;
 import com.app.service.dtos.register.RegisterRequest;
 import org.springframework.stereotype.Service;
 

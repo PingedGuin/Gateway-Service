@@ -1,18 +1,17 @@
 package com.app.user.data.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.app.service.dtos.register.RegisterRequest;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 @Table(name = "user_info")
 public class UserInfoEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -23,4 +22,10 @@ public class UserInfoEntity {
 
     @Column(nullable = false)
     private String password;
+
+    public UserInfoEntity(RegisterRequest request) {
+        this.username = request.getUsername();
+        this.gmail = request.getEmail();
+        this.password = request.getPassword();
+    }
 }

@@ -17,21 +17,21 @@ public class UserInfoController {
     }
     @GetMapping("/api/user/@me")
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
-        var userId = tokenService.extractUserId(token);
+        var userId = tokenService.extractUserId(authentication.getName());
         //todo change this
         return ResponseEntity.ok("user info");
     }
 
     @PatchMapping("/api/user/@me")
     public ResponseEntity<?> updateUserInfo(Authentication authentication, UpdateUserRequest request) {
-        var userId = tokenService.extractUserId(token);
+        var userId = tokenService.extractUserId(authentication.getName());
 
         return ResponseEntity.ok("user updated");
     }
     @DeleteMapping("/api/user/@me")
     public ResponseEntity<?> deleteUser(Authentication authentication) {
-        String userId = auth.getName();
-        return ResponseEntity.ok(userService.getUser(userId));
+        String userId = authentication.getName();
+        return ResponseEntity.ok(userService.getUserInfo(userId));
     }
 
 }

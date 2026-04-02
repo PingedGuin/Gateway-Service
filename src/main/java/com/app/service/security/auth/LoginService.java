@@ -3,7 +3,6 @@ package com.app.service.security.auth;
 import com.app.service.database.entitys.UserSessionEntity;
 import com.app.service.dtos.register.login.LoginDto;
 import com.app.service.dtos.register.login.LoginResponseDto;
-import com.app.service.dtos.user.UserInfo;
 import com.app.user.repository.UserInfoRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,14 +23,14 @@ public class LoginService {
     @Transactional
     @Cacheable("userInfo")
     public LoginResponseDto login(LoginDto request) {
-        UserInfo userInfo = userInfoRepository.findByUsername(request.getUsername(), request.getPassword());
+        var userInfo = userInfoRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
         if (userInfo == null) {
             return null;
         }
         // todo - add log instead of null return
-
+        var username = request.getUsername();
         var session = sessionService.getOrCreateSession(new UserSessionEntity(request.getUsername(),true));
-        var accasToken = tokenService.generateAccessToken(userInfo.getUsername(),session.getSessionId(),session.getExpiresAt());
+        var accasToken = tokenService.generateAccessToken(username,session.getSessionId(),session.getExpiresAt());
         return new LoginResponseDto(accasToken, request.getUsername());
     }
 
@@ -41,4 +40,5 @@ public class LoginService {
 
     public void refreshToken() {
     }
+
 }

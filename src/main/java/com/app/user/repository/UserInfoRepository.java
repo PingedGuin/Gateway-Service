@@ -1,9 +1,14 @@
 package com.app.user.repository;
 
-import com.app.service.dtos.user.UserInfo;
+import com.app.user.data.dto.UserInfo;
+import com.app.user.data.entity.UserInfoEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class UserInfoRepository {
-    public UserInfo findByUsername(String username, String password) {
-            return null;
-    }
+import java.util.Optional;
+
+public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Long> {
+    UserInfoEntity findByUsernameAndPassword(String username, String password);
+    boolean existsByGmailAndUsername(String gmail, String username);
+    boolean existsByGmail(String gmail);
+    boolean existsByUsername(String username);
 }
