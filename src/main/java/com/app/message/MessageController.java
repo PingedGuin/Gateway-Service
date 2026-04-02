@@ -1,6 +1,6 @@
 package com.app.message;
 
-import com.app.service.dtos.socket.SocketMessage;
+import com.app.register.dtos.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

@@ -1,7 +1,7 @@
 package com.app.user.controller;
 
-import com.app.service.dtos.user.UpdateUserRequest;
-import com.app.service.security.auth.TokenService;
+import com.app.register.dtos.user.UpdateUserRequest;
+import com.app.register.security.auth.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

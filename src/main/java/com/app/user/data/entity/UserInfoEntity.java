@@ -1,6 +1,6 @@
 package com.app.user.data.entity;
 
-import com.app.service.dtos.register.RegisterRequest;
+import com.app.register.dtos.register.RegisterRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
