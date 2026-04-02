@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @NotBlank
 @Getter
-public class LoginDto {
-    String username;
+public class LoginRequest {
+    String gmail;
     String password;
 }

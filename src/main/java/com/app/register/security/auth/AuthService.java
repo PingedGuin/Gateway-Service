@@ -1,9 +1,11 @@
 package com.app.register.security.auth;
 
 import com.app.register.database.entitys.UserSessionEntity;
-import com.app.register.dtos.user.LoginRequest;
+import com.app.register.dtos.register.login.LoginRequest;
+import com.app.register.dtos.register.login.LoginResponseDto;
 import com.app.user.data.entity.UserInfoEntity;
 import com.app.user.repository.UserInfoRepository;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,13 +25,13 @@ public class AuthService {
         this.sessionService = sessionService;
     }
 
-    public String login(LoginRequest request) {
+    public LoginResponseDto login(LoginRequest request) {
         UserInfoEntity user = userRepository.findByGmail(request.getGmail())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        if (!passwordEncoderService.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+        if (!passwordEncoderService.matches(request.getPassword(), user.getPassword()))
+            throw new BadCredentialsException("Invalid credentials");
+
 
         UserSessionEntity session = new UserSessionEntity();
         session.setUserId(user.getId().toString());
@@ -37,10 +39,15 @@ public class AuthService {
 
         session = sessionService.getOrCreateSession(session);
         LocalDate expireDate = LocalDate.now().plusDays(7);
-        return tokenService.generateAccessToken(
+        String token =  tokenService.generateAccessToken(
                 user.getId().toString(),
                 session.getSessionId(),
                 expireDate.toString()
         );
+         return mapToLoginResponseDto(user,session.getSessionId(),expireDate.toString(),token);
+
+    }
+    private LoginResponseDto mapToLoginResponseDto(UserInfoEntity user,String sessionId,String expireDate,String accessToken) {
+        return new LoginResponseDto(accessToken, user.getUsername(), expireDate,user.getId().toString(),sessionId);
     }
 }

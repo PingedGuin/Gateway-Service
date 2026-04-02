@@ -1,7 +1,7 @@
 package com.app.register.controller;
 
-import com.app.register.dtos.register.login.LoginDto;
-import com.app.register.security.auth.LoginService;
+import com.app.register.dtos.register.login.LoginRequest;
+import com.app.register.security.auth.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -11,24 +11,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    private final LoginService loginService;
+    private final AuthService authService;
 
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
+    public LoginController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/api/auth/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto request, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) {
 
-        var responseDto = loginService.login(request);
-        if (responseDto == null) return ResponseEntity.badRequest().body("user not found");
+        var responseDto = authService.login(request);
 
         Cookie cookie = new Cookie("jwt", responseDto.getAccessToken());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60);
-        response.addCookie(cookie);
-        return ResponseEntity.ok().body("logged in");
+        cookie.setSecure(true);
 
+        response.addHeader("Set-Cookie",
+                String.format("jwt=%s; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=%d",
+                        responseDto.getAccessToken(),
+                        60 * 60 * 24 * 7));
+
+        return ResponseEntity.ok(responseDto);
     }
 }
