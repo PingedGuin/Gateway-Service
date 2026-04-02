@@ -1,4 +1,4 @@
-package com.app.service.security.auth.service;
+package com.app.service.security.auth;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenService {
-    public String genrateAccessToken(String userId, String sessionId, String expireAt) {
+    public String generateAccessToken(String userId, String sessionId, String expireAt) {
         //todo add role for the user in include it in the token
         try {
             String SECRET = "super-long-random-secret-key-256-bits"; // todo change this

@@ -1,7 +1,7 @@
 package com.app.register;
 
 import com.app.service.dtos.register.RegisterRequest;
-import com.app.service.security.auth.service.RegisterService;
+import com.app.service.security.auth.RegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

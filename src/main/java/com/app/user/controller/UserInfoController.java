@@ -1,8 +1,9 @@
 package com.app.user.controller;
 
 import com.app.service.dtos.user.UpdateUserRequest;
-import com.app.service.security.auth.service.TokenService;
+import com.app.service.security.auth.TokenService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.app.user.service.UserService;
 
@@ -14,17 +15,23 @@ public class UserInfoController {
         this.tokenService = tokenService;
         this.userService = userService;
     }
-    @GetMapping("/api/user/@me/info")
-    public ResponseEntity<?> getUserInfo(@RequestHeader(value = "Authorization") String token) {
+    @GetMapping("/api/user/@me")
+    public ResponseEntity<?> getUserInfo(Authentication authentication) {
         var userId = tokenService.extractUserId(token);
         //todo change this
         return ResponseEntity.ok("user info");
     }
 
-    @PatchMapping("/api/user/@me/updateInfo")
-    public ResponseEntity<?> updateUserInfo(@RequestHeader(value = "Authorization") String token, UpdateUserRequest request) {
+    @PatchMapping("/api/user/@me")
+    public ResponseEntity<?> updateUserInfo(Authentication authentication, UpdateUserRequest request) {
         var userId = tokenService.extractUserId(token);
 
         return ResponseEntity.ok("user updated");
     }
+    @DeleteMapping("/api/user/@me")
+    public ResponseEntity<?> deleteUser(Authentication authentication) {
+        String userId = auth.getName();
+        return ResponseEntity.ok(userService.getUser(userId));
+    }
+
 }

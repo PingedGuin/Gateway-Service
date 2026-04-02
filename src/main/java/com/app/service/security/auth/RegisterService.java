@@ -1,4 +1,4 @@
-package com.app.service.security.auth.service;
+package com.app.service.security.auth;
 
 import com.app.service.database.entitys.UserInfoEntity;
 import com.app.service.database.repository.UserInfoRepository;

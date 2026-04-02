@@ -1,7 +1,7 @@
 package com.app.register;
 
 import com.app.service.dtos.register.login.LoginDto;
-import com.app.service.security.auth.service.LoginService;
+import com.app.service.security.auth.LoginService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;

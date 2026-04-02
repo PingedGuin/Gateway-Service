@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.app.service.security.auth.service.TokenService;
+import com.app.service.security.auth.TokenService;
 import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;

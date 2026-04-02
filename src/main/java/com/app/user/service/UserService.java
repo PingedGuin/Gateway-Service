@@ -14,8 +14,6 @@ public class UserService {
     //todo add cheche tho
 
     public UserInfo getUserInfo(String username) {
-
-
         return new UserInfo("username", "id", "gmail");
     }
 }
