@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GuildChannelController {
-    @PostMapping("/api/channels")
+    @PostMapping("/api/guild/channel")
     public ResponseEntity<?> createChannel(Authentication auth,@RequestBody CreateChannelRequest request){
 
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/api/channels")
-    public ResponseEntity<?> deleteChannel(Authentication auth, editChannelRequest request){
+    @DeleteMapping("/api/guild/channel")
+    public ResponseEntity<?> deleteChannel(Authentication auth,@RequestBody editChannelRequest request){
 
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/api/channels")
-    public ResponseEntity<?> editChannel(Authentication auth,editChannelRequest request){
+    @PostMapping("/api/guild/channel")
+    public ResponseEntity<?> editChannel(Authentication auth,@RequestBody editChannelRequest request){
         return ResponseEntity.ok().build();
     }
 }
