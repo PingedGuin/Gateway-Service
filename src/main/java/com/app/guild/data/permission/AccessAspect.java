@@ -1,5 +1,6 @@
 package com.app.guild.data.permission;
 
+import com.app.guild.data.dto.GuildRequest;
 import com.app.guild.data.dto.member.ManageMemberRequest;
 import com.app.guild.security.GuildSecurity;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,13 @@ public class AccessAspect {
         Object[] args = joinPoint.getArgs();
 
         Authentication auth = null;
-        ManageMemberRequest request = null;
+        GuildRequest request = null;
 
         for (Object arg : args) {
             if (arg instanceof Authentication) {
                 auth = (Authentication) arg;
-            } else if (arg instanceof ManageMemberRequest) {
-                request = (ManageMemberRequest) arg;
+            } else if (arg instanceof GuildRequest) {
+                request = (GuildRequest) arg;
             }
         }
 

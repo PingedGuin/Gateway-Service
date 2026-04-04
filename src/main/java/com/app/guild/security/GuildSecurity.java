@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GuildSecurity {
 
-    public boolean hasPermission(Authentication auth, ManageMemberRequest request, AccessLevel permission) {
+    public boolean hasPermission(Authentication auth, Object request, AccessLevel permission) {
         String username = auth.getName();
-
 
         return true;
     }
