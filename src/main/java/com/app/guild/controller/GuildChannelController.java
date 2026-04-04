@@ -1,7 +1,7 @@
 package com.app.guild.controller;
 
-import com.app.guild.data.dto.CreateChannelRequest;
-import com.app.guild.data.dto.editChannelRequest;
+import com.app.guild.data.dto.channel.CreateChannelRequest;
+import com.app.guild.data.dto.channel.EditChannelRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,12 +17,12 @@ public class GuildChannelController {
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("/api/guild/channel")
-    public ResponseEntity<?> deleteChannel(Authentication auth,@RequestBody editChannelRequest request){
+    public ResponseEntity<?> deleteChannel(Authentication auth,@RequestBody EditChannelRequest request){
 
         return ResponseEntity.ok().build();
     }
     @PostMapping("/api/guild/channel")
-    public ResponseEntity<?> editChannel(Authentication auth,@RequestBody editChannelRequest request){
+    public ResponseEntity<?> editChannel(Authentication auth,@RequestBody EditChannelRequest request){
         return ResponseEntity.ok().build();
     }
 }

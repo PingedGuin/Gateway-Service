@@ -1,4 +1,4 @@
-package com.app.guild.data.dto;
+package com.app.guild.data.dto.channel;
 
 import lombok.Data;
 
