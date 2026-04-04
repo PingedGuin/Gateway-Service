@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/guild/member/manage")
+@RequestMapping("member/manage")
 public class GuildMemberController {
     @PostMapping("join")
     public ResponseEntity<?> joinGuild(Authentication auth, @RequestBody ManageMemberRequest request) {
