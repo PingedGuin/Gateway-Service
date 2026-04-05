@@ -8,6 +8,6 @@ public class ManageMemberRequest implements GuildOperationRequest {
     private String guildId;
     private String userId;
     private String roleId;
-    private String permission;
     private String channelId;
+    private String permission;
 }
