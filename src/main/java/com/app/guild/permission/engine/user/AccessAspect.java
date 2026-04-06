@@ -1,4 +1,4 @@
-package com.app.guild.data.permission;
+package com.app.guild.permission.engine.user;
 
 import com.app.guild.data.dto.GuildOperationRequest;
 import com.app.guild.security.GuildSecurity;

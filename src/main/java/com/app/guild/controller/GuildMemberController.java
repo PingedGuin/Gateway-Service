@@ -1,8 +1,8 @@
 package com.app.guild.controller;
 
 import com.app.guild.data.dto.member.ManageMemberRequest;
-import com.app.guild.data.permission.AccessLevel;
-import com.app.guild.data.permission.RequiresAccess;
+import com.app.guild.permission.engine.user.AccessLevel;
+import com.app.guild.permission.engine.user.RequiresAccess;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class GuildMemberController {
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("leave/{guildId}")
-    public ResponseEntity<?> leaveGuild(Authentication auth, @RequestParam ManageMemberRequest request) {
+    public ResponseEntity<?> leaveGuild(Authentication auth, @RequestParam String guildId, @RequestParam String userId) {
 
         return ResponseEntity.ok().build();
     }

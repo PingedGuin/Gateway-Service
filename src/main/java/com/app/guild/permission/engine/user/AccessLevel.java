@@ -1,4 +1,4 @@
-package com.app.guild.data.permission;
+package com.app.guild.permission.engine.user;
 
 public enum AccessLevel {
     USER,

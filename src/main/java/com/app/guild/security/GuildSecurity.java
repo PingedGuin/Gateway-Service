@@ -1,6 +1,6 @@
 package com.app.guild.security;
 
-import com.app.guild.data.permission.AccessLevel;
+import com.app.guild.permission.engine.user.AccessLevel;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

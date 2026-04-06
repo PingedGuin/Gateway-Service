@@ -1,6 +1,6 @@
 package com.app.guild.member;
 
-import com.app.guild.role.data.Role;
+import com.app.role.dto.RoleDto;
 import lombok.Data;
 
 import java.util.List;
@@ -8,5 +8,5 @@ import java.util.List;
 public class GuildMember {
     private String id;
     private String guildId;
-    private List<Role> permissions;
+    private List<RoleDto> permissions;
 }

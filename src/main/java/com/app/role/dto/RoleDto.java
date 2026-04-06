@@ -1,11 +1,11 @@
-package com.app.guild.role.data;
+package com.app.role.dto;
 
 import lombok.Data;
 
 @Data
-public class Role {
+public class RoleDto {
     private String roleId;
     private String roleName;
     private String guildId;
-    private int permission;
+    private Long permission;
 }
