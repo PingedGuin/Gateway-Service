@@ -1,7 +1,8 @@
 package com.app.guild.permission.engine;
 
-import com.app.channel.data.Channel;
+import com.app.channel.data.ChannelDto;
 import com.app.member.dto.MemberDto;
+import com.app.member.entity.MemberEntity;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
@@ -14,20 +15,20 @@ public class PermissionService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    public Long getPermission(MemberDto member, String memberId, Channel channel) {
+    public Long getPermission(MemberDto member, String memberId, ChannelDto channelDto) {
         String key = String.format("perm:%s:%s:%s",
                 member.getGuildId(),
-                channel.getChannelId(),
+                channelDto.getChannelId(),
                 member.getId());
 
         Long cachedPerm = cache.getIfPresent(key);
         if (cachedPerm != null) return cachedPerm;
 
-        Long perm = calculate(member,channel);
+        Long perm = calculate(member, channelDto);
         cache.put(key, perm);
         return perm;
     }
-    private Long calculate(MemberDto member, Channel channel) {
+    private Long calculate(MemberEntity member, ChannelEntity channel) {
         Long permission = 0L;
 
 

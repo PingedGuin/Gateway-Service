@@ -3,7 +3,7 @@ package com.app.channel.data;
 import lombok.Data;
 
 @Data
-public class Channel {
+public class ChannelDto {
     private String channelId;
     private String channelName;
     private String guildId;
