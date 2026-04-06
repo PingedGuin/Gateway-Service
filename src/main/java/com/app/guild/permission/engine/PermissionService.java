@@ -1,5 +1,6 @@
 package com.app.guild.permission.engine;
 
+import com.app.channel.Entity.ChannelEntity;
 import com.app.channel.data.ChannelDto;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
@@ -24,7 +25,8 @@ public class PermissionService {
         Long cachedPerm = cache.getIfPresent(key);
         if (cachedPerm != null) return cachedPerm;
 
-        Long perm = calculate(member, channelDto);
+        // Calculate permission call the repository here and get member - channel override ig
+        Long perm = calculate();
         cache.put(key, perm);
         return perm;
     }
