@@ -1,6 +1,7 @@
 package com.app.channel.Entity;
 
 import com.app.member.entity.MemberOverride;
+import com.app.role.entity.RoleOverride;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package com.app.channel.Entity;
+package com.app.role.entity;
 
-import com.app.role.entity.RoleEntity;
+import com.app.channel.Entity.ChannelEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
