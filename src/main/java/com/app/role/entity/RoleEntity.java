@@ -1,6 +1,6 @@
 package com.app.role.entity;
 
-import com.app.guild.member.entity.MemberEntity;
+import com.app.member.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.app.guild.permission.engine;
 
 import com.app.channel.data.Channel;
-import com.app.guild.member.dto.MemberDto;
+import com.app.member.dto.MemberDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 

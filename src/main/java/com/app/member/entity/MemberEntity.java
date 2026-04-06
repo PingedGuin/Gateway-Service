@@ -1,4 +1,4 @@
-package com.app.guild.member.entity;
+package com.app.member.entity;
 
 import com.app.role.entity.RoleEntity;
 import jakarta.persistence.*;
