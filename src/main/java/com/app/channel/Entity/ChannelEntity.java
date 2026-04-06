@@ -20,11 +20,9 @@ public class ChannelEntity {
     @Column(nullable = false)
     private String name;
 
-    // Overrides for specific roles in this channel
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoleOverride> roleOverrides;
 
-    // Overrides for specific members in this channel
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MemberOverride> memberOverrides;
 

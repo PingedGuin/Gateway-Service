@@ -23,6 +23,13 @@ public class MemberOverride {
     @JoinColumn(name = "member_id")
     private MemberEntity member;
 
+    @Column(name = "base_perms")
+    private Long basePermissions;
+
+    public Long getBasePermissions() {
+        return basePermissions != null ? basePermissions : 0L;
+    }
+
     private Long allowedPermissions;
     private Long deniedPermissions;
 }
