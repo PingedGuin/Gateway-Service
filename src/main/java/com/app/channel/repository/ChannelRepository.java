@@ -1,7 +1,10 @@
 package com.app.channel.repository;
 
-import org.springframework.stereotype.Repository;
+import com.app.channel.Entity.ChannelEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class ChannelRepository {
+import java.util.Optional;
+
+public interface ChannelRepository extends JpaRepository <ChannelEntity, Integer>{
+    Optional<ChannelEntity> findById(int id);
 }
