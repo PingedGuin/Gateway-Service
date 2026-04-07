@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 public class MemberEntity {
     @Id
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private String username;

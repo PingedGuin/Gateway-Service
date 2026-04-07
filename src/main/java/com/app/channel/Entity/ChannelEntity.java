@@ -15,7 +15,7 @@ import java.util.List;
 public class ChannelEntity {
 
     @Id
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
