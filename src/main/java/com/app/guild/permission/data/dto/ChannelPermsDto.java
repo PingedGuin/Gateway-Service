@@ -5,17 +5,16 @@ import com.app.role.entity.RoleOverride;
 import lombok.Data;
 
 import java.util.Map;
+
 @Data
 public class ChannelPermsDto {
-    private String channelId;
-    private String guildId;
-    private Map<Long,MemberOverride> memberOverrideMap;
-    private Map<Long, RoleOverride> roleOverrideMap;
+    String key;
+    private Map<Long,RoleOverride> roleOverrideMap;
+    private MemberOverride memberOverride;
 
-    public ChannelPermsDto(String guildId, Long id, Map<Long, RoleOverride> roleOverrideMap, Map<Long, MemberOverride> memberOverrideMap) {
-        this.guildId = guildId;
-        this.channelId = id.toString();
+    public ChannelPermsDto(String guildId, Long id, Map<Long, RoleOverride> roleOverrideMap, MemberOverride memberOverride) {
+        this.key = String.format("channel:%s:%s", guildId, id);
         this.roleOverrideMap = roleOverrideMap;
-        this.memberOverrideMap = memberOverrideMap;
+        this.memberOverride = memberOverride;
     }
 }
