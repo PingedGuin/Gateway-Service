@@ -41,7 +41,7 @@ public class ChannelService {
     public ChannelPermsDto getChannelPermissions(String guildId, String channelId, Long memberId) {
         String key = String.format("channel:%s:%s", guildId, channelId);
 
-        ChannelEntity channel = cacheEntity.get(channelId, id -> channelRepository.findById(id)
+        ChannelEntity channel = cacheEntity.get(key, id -> channelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Channel not found"))
         );
 
@@ -60,10 +60,13 @@ public class ChannelService {
         return new ChannelPermsDto(channel.getGuildId(), channel.getId(), roleOverrides, memberOverride.orElse(null));
     }
 
-    public void evictChannel(String key) {
-        cacheEntity.invalidate(key);
-        memberOverridePermsCache.invalidate(key);
-        cacheOverrideRolesPerms.invalidate(key);
+    public void evictChannel(String guildId, String channelId) {
+        cacheEntity.invalidate("channel:" + guildId + ":" + channelId);
+
+        cacheOverrideRolesPerms.invalidate(channelId);
+
+        memberOverridePermsCache.asMap().keySet()
+                .removeIf(k -> k.startsWith("member:" + channelId + ":"));
     }
 
 }
