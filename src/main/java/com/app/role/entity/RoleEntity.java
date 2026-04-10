@@ -1,5 +1,6 @@
 package com.app.role.entity;
 
+import com.app.guild.data.Entity.GuildEntity;
 import com.app.member.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 public class RoleEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -22,5 +24,12 @@ public class RoleEntity {
     private long permissions;
 
     @ManyToMany(mappedBy = "roles")
-    private List<MemberEntity> memberEntities;
+    private List<MemberEntity> members;
+
+    @Column(nullable = false)
+    private int position;
+
+    @ManyToOne
+    @JoinColumn(name = "guild_id", nullable = false)
+    private GuildEntity guild;
 }

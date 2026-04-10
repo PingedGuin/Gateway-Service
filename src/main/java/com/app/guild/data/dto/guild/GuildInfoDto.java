@@ -8,8 +8,4 @@ public class GuildInfoDto {
     private String guildId;
     private String guildName;
     private String guildIcon;
-
-    public GuildInfoDto(GuildEntity guildEntity) {
-
-    }
 }

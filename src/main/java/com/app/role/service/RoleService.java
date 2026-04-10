@@ -17,8 +17,10 @@ public class RoleService {
         this.guildService = guildService;
     }
 
-    public List<RoleEntity> getAllRoles(String guildId) {
+    public List<RoleEntity> getAllRoles(Long guildId) {
         var guildInfo = guildService.getGuild(guildId);
+
+        guildInfo.getRoles();
 
     }
 }

@@ -15,7 +15,7 @@ public class GuildService {
     private final GuildRepository guildRepository;
     private final GuildMapper mapper;
 
-    private final Cache<Long, GuildEntity> guildCache = Caffeine.newBuilder()
+    private final Cache<Long, GuildInfoDto> guildCache = Caffeine.newBuilder()
             .maximumSize(200_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
@@ -25,14 +25,18 @@ public class GuildService {
         this.guildRepository = guildRepository;
         this.mapper = mapper;
     }
-    public GuildInfoDto getGuild(Long guildId) {
-        var guild = guildCache.getIfPresent(guildId);
 
-        if (guild != null) return mapper.toDto(guild);
+    public GuildInfoDto getGuild(Long guildId) {
+        var dto = guildCache.getIfPresent(guildId);
+
+        if (dto != null) return dto;
 
         GuildEntity guildEntity = guildRepository.findById(guildId).orElse(null);
-        if (guildEntity == null) return null;
-        guildCache.put(guildId, guildEntity);
-        return mapper.toDto(guildEntity);
+
+        if (guildEntity == null) throw new RuntimeException("Guild not found");
+        GuildInfoDto mapped = mapper.toDto(guildEntity);
+
+        guildCache.put(guildId, mapped);
+        return mapped;
     }
 }
