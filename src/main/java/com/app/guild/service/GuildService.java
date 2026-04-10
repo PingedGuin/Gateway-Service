@@ -2,6 +2,7 @@ package com.app.guild.service;
 
 import com.app.guild.data.Entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
+import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GuildService {
     private final GuildRepository guildRepository;
+    private final GuildMapper mapper;
 
     private final Cache<Long, GuildEntity> guildCache = Caffeine.newBuilder()
             .maximumSize(200_000)
@@ -19,10 +21,18 @@ public class GuildService {
             .build();
 
 
-    public GuildService(GuildRepository guildRepository) {
+    public GuildService(GuildRepository guildRepository, GuildMapper mapper) {
         this.guildRepository = guildRepository;
+        this.mapper = mapper;
     }
     public GuildInfoDto getGuild(Long guildId) {
-        return guildCache.get(guildId, _ -> new GuildInfoDto(guildRepository.findById(guildId).orElseThrow(null)));
+        var guild = guildCache.getIfPresent(guildId);
+
+        if (guild != null) return mapper.toDto(guild);
+
+        GuildEntity guildEntity = guildRepository.findById(guildId).orElse(null);
+        if (guildEntity == null) return null;
+        guildCache.put(guildId, guildEntity);
+        return mapper.toDto(guildEntity);
     }
 }
