@@ -4,10 +4,12 @@ import com.app.guild.data.Entity.GuildEntity;
 import com.app.guild.data.dto.guild.GuildInfoDto;
 import com.app.guild.mapping.GuildMapper;
 import com.app.guild.repository.GuildRepository;
+import com.app.role.dto.RoleDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -39,4 +41,9 @@ public class GuildService {
         guildCache.put(guildId, mapped);
         return mapped;
     }
+
+    public List<RoleDto> getAllRoles(Long guildId) {
+        return getGuild(guildId).getRoles();
+    }
+
 }

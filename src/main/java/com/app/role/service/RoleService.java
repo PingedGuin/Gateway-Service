@@ -1,7 +1,7 @@
 package com.app.role.service;
 
 import com.app.guild.service.GuildService;
-import com.app.role.entity.RoleEntity;
+import com.app.role.dto.RoleDto;
 import com.app.role.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,29 @@ public class RoleService {
         this.guildService = guildService;
     }
 
-    public List<RoleEntity> getAllRoles(Long guildId) {
-        var guildInfo = guildService.getGuild(guildId);
+//    Create Role
+//    Update Role
+//    Delete Role
+//    Get Role
+//    Fetching
+//    Get Roles by Guild
+//    Get Role by ID
+//    Permissions
+//    Add Permission
+//    Remove Permission
+//    Set Permissions
+//    Clear Permissions
+//    Validation
+//    Check Duplicate Name
+//    Validate Creation Rules
+//    Protect System Roles
+//            Mapping
+//    Entity ↔ DTO
+//    Not in RoleService
+//    Member Permissions
+//    Channel Logic
+//    Guild Context
+//    System Caching
 
-        guildInfo.getRoles();
-
-    }
 }
 
