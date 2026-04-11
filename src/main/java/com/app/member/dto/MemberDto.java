@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 public class MemberDto {
-    private String id;
+    private Long id;
     private String username;
-    private String guildId;
+    private Long guildId;
     private List<RoleDto> permissions;
 }

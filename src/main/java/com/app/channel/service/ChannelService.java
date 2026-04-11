@@ -38,7 +38,7 @@ public class ChannelService {
             .build();
 
 
-    public ChannelPermsDto getChannelPermissions(String guildId, String channelId, Long memberId) {
+    public ChannelPermsDto getChannelPermissions(Long guildId, String channelId, Long memberId) {
         String key = String.format("channel:%s:%s", guildId, channelId);
 
         ChannelEntity channel = cacheEntity.get(key, id -> channelRepository.findById(id)

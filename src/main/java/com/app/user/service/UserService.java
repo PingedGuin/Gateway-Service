@@ -20,7 +20,9 @@ public class UserService {
 
         return entityToDto(entity);
     }
+
     private UserInfo entityToDto(UserInfoEntity entity) {
         return new UserInfo(entity.getUsername(), entity.getGmail());
     }
+
 }

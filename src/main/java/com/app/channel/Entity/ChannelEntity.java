@@ -3,15 +3,12 @@ package com.app.channel.Entity;
 import com.app.member.entity.MemberOverride;
 import com.app.role.entity.RoleOverride;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 import java.util.List;
 
 @Entity
 @Table(name = "channels")
-@Getter
-@Setter
+@Data
 public class ChannelEntity {
 
     @Id
