@@ -1,11 +1,9 @@
 package com.app.role.service;
 
 import com.app.guild.service.GuildService;
-import com.app.role.dto.RoleDto;
 import com.app.role.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class RoleService {
