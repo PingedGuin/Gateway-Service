@@ -23,6 +23,6 @@ public class RoleOverride {
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 
-    private Long allowedPermissions; // bitmask (Allowed roles .
-    private Long deniedPermissions; // denied roles
+    private Long allow; // bitmask (Allowed roles .
+    private Long deny; // denied roles
 }

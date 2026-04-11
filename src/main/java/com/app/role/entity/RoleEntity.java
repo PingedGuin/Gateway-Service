@@ -21,7 +21,7 @@ public class RoleEntity {
     private String name;
 
     @Column(nullable = false)
-    private long permissions;
+    private long permission;
 
     @ManyToMany(mappedBy = "roles")
     private List<MemberEntity> members;

@@ -7,12 +7,16 @@ import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.service.MemberService;
+import com.app.role.dto.RoleDto;
+import com.app.role.entity.RoleOverride;
 import com.app.user.service.UserService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class PermissionService {
@@ -38,17 +42,34 @@ public class PermissionService {
         Long cachedPerm = cache.getIfPresent(key);
         if (cachedPerm != null) return cachedPerm;
 
-        // Calculate permission call the repository here and get member - channel override ig
-        var channelPermissions = channelService.getChannelPermissions(member.getGuildId(),channel.getChannelId(),member.getId());
-        var memberDto = memberService.getUserPermissions(member.getId(),member.getGuildId());
-        Long perm = calculate(memberDto,channelPermissions);
+        var channelContext = channelService.getChannelPermissions(member.getGuildId(), channel.getChannelId(), member.getId());
+        var memberDto = memberService.getUserPermissions(member.getId(), member.getGuildId());
+        Long perm = calculate(memberDto, channelContext);
         cache.put(key, perm);
         return perm;
     }
+
     private Long calculate(MemberDto member, ChannelPermsDto channel) {
-        Long permission = 0L;
+        Long perms = 0L;
 
+        for (RoleDto role : member.getRoles()) {
+            perms |= role.getPermission();
+        }
 
-        return 1L;
+        for (RoleOverride override : channel.getRoleOverrideMap().values()) {
+            if (override != null && override.getRole() != null) {
+                if (memberService.hasRole(override.getRole().getId())) {
+                    perms &= ~override.getDeny();
+                    perms |= override.getAllow();
+                }
+            }
+        }
+
+        if (channel.getMemberOverride() != null) {
+            perms &= ~channel.getMemberOverride().getDeniedPermissions();
+            perms |= channel.getMemberOverride().getAllowedPermissions();
+        }
+
+        return perms;
     }
 }

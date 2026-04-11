@@ -1,6 +1,7 @@
 package com.app.member.entity;
 
 import com.app.role.entity.RoleEntity;
+import com.app.user.data.entity.UserInfoEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,18 +13,16 @@ import java.util.List;
 @Getter
 @Setter
 public class MemberEntity {
-    @Id
-    private Long id;
 
-    @Column(nullable = false)
+    @EmbeddedId
+    private MemberId id;
+
     private String username;
 
-    @Column(name = "guild_id", nullable = false)
-    private String guildId;
-
-    @Transient
-    private RoleEntity everyoneRole;
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<RoleEntity> roles;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserInfoEntity userInfo;
 }

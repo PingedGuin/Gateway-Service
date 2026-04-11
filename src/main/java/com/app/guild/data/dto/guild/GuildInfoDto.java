@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class GuildInfoDto {
-    private String guildId;
+    private Long guildId;
     private String guildName;
     private String guildIcon;
 }
