@@ -4,7 +4,7 @@ import com.app.role.dto.RoleDto;
 
 import java.util.List;
 
-public class UserPermissionDto {
+public class memberPermissionDto {
     private String userId;
     private List<RoleDto> roles;
 }
