@@ -2,6 +2,7 @@ package com.app.guild.permission.engine;
 
 import com.app.channel.data.ChannelDto;
 import com.app.channel.service.ChannelService;
+import com.app.guild.permission.data.Permission;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.member.dto.MemberDto;
 import com.app.member.service.MemberService;
@@ -18,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 public class PermissionService {
     private final ChannelService channelService;
     private final MemberService memberService;
-    static final long ADMIN_PERMISSION = 1L << 8;
 
     private final Cache<String, Long> cache = Caffeine.newBuilder()
             .maximumSize(100_000)
@@ -40,8 +40,7 @@ public class PermissionService {
         if (cachedPerm != null) return cachedPerm;
 
         var channelContext = channelService.getChannelPermissions(member.getGuildId(), channel.getChannelId(), member.getUserId());
-        var memberData = memberService.getUserPermissions(member.getUserId(), member.getGuildId());
-        Long perm = calculatePermissions(memberData, channelContext);
+        Long perm = calculatePermissions(member, channelContext);
         cache.put(cacheKey, perm);
         return perm;
     }
@@ -54,8 +53,9 @@ public class PermissionService {
             effectivePermissions |= role.getPermission();
         }
 
-        if ((effectivePermissions & ADMIN_PERMISSION) == ADMIN_PERMISSION) return ~0L;
-
+        if ((effectivePermissions & Permission.ADMINISTRATOR.getBit()) != 0) {
+            return ~0L;
+        }
         Set<Long> roleIds = member.getRoleIds();
         for (Long roleId : roleIds) {
             RoleOverride override = channel.getRoleOverrideMap().get(roleId);
