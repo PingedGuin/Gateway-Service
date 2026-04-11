@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class ChannelPermsDto {
     String key;
-    private Map<Long,RoleOverride> roleOverrideMap;
+    private Map<Long, RoleOverride> roleOverrideMap;
     private MemberOverride memberOverride;
 
     public ChannelPermsDto(String guildId, Long id, Map<Long, RoleOverride> roleOverrideMap, MemberOverride memberOverride) {

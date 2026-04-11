@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GuildController {
     @PostMapping("/api/guild")
-    public ResponseEntity<?> createGuild(Authentication auth){
+    public ResponseEntity<?> createGuild(Authentication auth) {
         return ResponseEntity.ok().build();
     }
-    public ResponseEntity<?> deleteGuild(Authentication auth){
+
+    public ResponseEntity<?> deleteGuild(Authentication auth) {
         return ResponseEntity.ok().build();
     }
-    public ResponseEntity<?> editGuildSettings(Authentication auth){
+
+    public ResponseEntity<?> editGuildSettings(Authentication auth) {
         return ResponseEntity.ok().build();
     }
 }

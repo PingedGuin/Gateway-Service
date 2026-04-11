@@ -4,6 +4,7 @@ import com.app.member.entity.MemberOverride;
 import com.app.role.entity.RoleOverride;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.List;
 
 @Entity
