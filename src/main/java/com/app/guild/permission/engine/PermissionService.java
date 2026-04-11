@@ -3,6 +3,7 @@ package com.app.guild.permission.engine;
 import com.app.channel.Entity.ChannelEntity;
 import com.app.channel.data.ChannelDto;
 import com.app.channel.service.ChannelService;
+import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.service.MemberService;
@@ -39,12 +40,12 @@ public class PermissionService {
 
         // Calculate permission call the repository here and get member - channel override ig
         var channelPermissions = channelService.getChannelPermissions(member.getGuildId(),channel.getChannelId(),member.getId());
-        var userPermissions = memberService.getUserPermissions(member.getId(),member.getGuildId());
-        Long perm = calculate();
+        var memberDto = memberService.getUserPermissions(member.getId(),member.getGuildId());
+        Long perm = calculate(memberDto,channelPermissions);
         cache.put(key, perm);
         return perm;
     }
-    private Long calculate(MemberDto member, ChannelDto channel) {
+    private Long calculate(MemberDto member, ChannelPermsDto channel) {
         Long permission = 0L;
 
 
