@@ -46,4 +46,25 @@ public class GuildService {
         return getGuild(guildId).getRoles();
     }
 
+    public Boolean isGuildOwner(Long guildId, Long userId) {
+        return false;
+    }
+
+    public Boolean isGuildMember(Long guildId, Long userId) {
+        return false;
+    }
+
+    public Boolean isGuildAdmin(Long guildId, Long userId) {
+        return false;
+    }
+
+    public Boolean kickMember(Long guildId, Long userId) {
+        return false;
+    }
+    public Boolean banMember(Long guildId, Long userId) {
+        return false;
+    }
+    public Boolean unbanMember(Long guildId, Long userId) {
+        return false;
+    }
 }

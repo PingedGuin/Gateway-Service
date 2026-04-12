@@ -41,10 +41,6 @@ public enum Permission {
         this.bit = bit;
     }
 
-    public long getBit() {
-        return bit;
-    }
-
     public boolean has(long permissions) {
         return (permissions & bit) == bit;
     }
