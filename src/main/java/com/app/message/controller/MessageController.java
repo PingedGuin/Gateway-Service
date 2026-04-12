@@ -1,4 +1,4 @@
-package com.app.message;
+package com.app.message.controller;
 
 import com.app.register.dtos.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
