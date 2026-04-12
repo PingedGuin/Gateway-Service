@@ -5,6 +5,7 @@ import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
 import com.app.role.dto.RoleDto;
+import com.app.user.data.dto.MemberPermissionDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class MemberService {
         return null;
     }
 
-    public MemberDto getMemberContext(Long userId, Long guildId) {
+    public MemberPermissionDto getMemberContext(Long userId, Long guildId) {
 
         MemberEntity entity = memberRepository
                 .findByUserIdAndGuildId(userId, guildId)
@@ -44,11 +45,10 @@ public class MemberService {
                 .collect(Collectors.toSet());
 
 
-        MemberDto dto = new MemberDto();
+        MemberPermissionDto dto = new MemberPermissionDto();
         dto.setUserId(entity.getUserInfo().getId());
-        dto.setUsername(entity.getUsername());
-        dto.setRoles(roles);
         dto.setGuildId(guildId);
+        dto.setRoles(roles);
         dto.setRoleIds(roleIds);
 
         return dto;

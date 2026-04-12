@@ -8,6 +8,7 @@ import com.app.member.dto.MemberDto;
 import com.app.member.service.MemberService;
 import com.app.role.dto.RoleDto;
 import com.app.role.entity.RoleOverride;
+import com.app.user.data.dto.MemberPermissionDto;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.stereotype.Service;
@@ -30,22 +31,23 @@ public class PermissionService {
         this.memberService = memberService;
     }
 
-    public Long getPermissions(MemberDto member, ChannelDto channel) {
+    public Long getPermissions(MemberDto memberBasicData, ChannelDto channel) {
         String cacheKey = String.format("perm:%s:%s:%s",
-                member.getGuildId(),
+                memberBasicData.getGuildId(),
                 channel.getChannelId(),
-                member.getUserId());
+                memberBasicData.getUserId());
 
         Long cachedPerm = cache.getIfPresent(cacheKey);
         if (cachedPerm != null) return cachedPerm;
 
+        MemberPermissionDto member = memberService.getMemberContext(memberBasicData.getUserId(), memberBasicData.getGuildId());
         var channelContext = channelService.getChannelPermissions(member.getGuildId(), channel.getChannelId(), member.getUserId());
         Long perm = calculatePermissions(member, channelContext);
         cache.put(cacheKey, perm);
         return perm;
     }
 
-    private long calculatePermissions(MemberDto member, ChannelPermsDto channel) {
+    private long calculatePermissions(MemberPermissionDto member, ChannelPermsDto channel) {
 
         long effectivePermissions = 0L;
 
