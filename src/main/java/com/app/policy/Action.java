@@ -1,4 +1,4 @@
 package com.app.policy;
 
-public interface Policy {
+public enum Action {
 }
