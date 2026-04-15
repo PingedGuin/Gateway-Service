@@ -8,7 +8,7 @@ public class PolicyEngine {
     public PolicyEngine() {
         this.type = this.getClass().getAnnotation(PolicyType.class);
 
-        var typeInfo = type.value();
+        var typeInfo = type.action();
 
 
     }

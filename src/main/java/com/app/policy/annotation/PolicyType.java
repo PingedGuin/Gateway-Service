@@ -10,8 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PolicyType {
-        String userId();
-        String guildId();
-        String channelId();
-        Action action();
+    Action action();
 }

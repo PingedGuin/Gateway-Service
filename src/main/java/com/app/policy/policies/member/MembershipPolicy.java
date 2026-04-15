@@ -1,4 +1,6 @@
 package com.app.policy.policies.member;
 
-public class MembershipPolicy {
+import com.app.policy.Policy;
+
+public class MembershipPolicy extends Policy {
 }
