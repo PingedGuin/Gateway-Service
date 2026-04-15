@@ -6,8 +6,8 @@ import com.app.policy.PolicyContext;
 import com.app.policy.annotation.PolicyType;
 
 @PolicyType(action = Action.MANAGE_PERMISSIONS)
-public class PermissionPolicy extends Policy {
-    public void handle(PolicyContext context) {
+public class PermissionPolicy implements Policy {
+    public void check(PolicyContext context) {
 
     }
 }

@@ -8,7 +8,6 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface GuildMapper {
-    @Mapping(target = "members", ignore = true)
     GuildInfoDto toDto(GuildEntity entity);
     void updateEntityFromDto(GuildInfoDto dto, @MappingTarget GuildEntity entity);
 

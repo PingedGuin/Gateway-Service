@@ -1,6 +1,11 @@
 package com.app.policy.policies.member;
 
 import com.app.policy.Policy;
+import com.app.policy.PolicyContext;
 
-public class MembershipPolicy extends Policy {
+public class MembershipPolicy implements Policy {
+    @Override
+    public void check(PolicyContext context) {
+
+    }
 }

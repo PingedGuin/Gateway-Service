@@ -1,15 +1,15 @@
 package com.app.policy;
 
-import com.app.policy.annotation.PolicyType;
 
 public class PolicyEngine {
-    private final PolicyType type;
+    private final PolicyRegistry registry;
 
-    public PolicyEngine() {
-        this.type = this.getClass().getAnnotation(PolicyType.class);
+    public PolicyEngine(PolicyRegistry registry) {
+        this.registry = registry;
+    }
 
-        var typeInfo = type.action();
-
+    public void check(PolicyContext context) {
 
     }
+
 }
