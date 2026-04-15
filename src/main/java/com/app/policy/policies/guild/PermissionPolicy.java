@@ -7,7 +7,8 @@ import com.app.policy.annotation.PolicyType;
 
 @PolicyType(action = Action.MANAGE_PERMISSIONS)
 public class PermissionPolicy implements Policy {
-    public void check(PolicyContext context) {
+    public boolean check(PolicyContext context) {
 
+        return false;
     }
 }

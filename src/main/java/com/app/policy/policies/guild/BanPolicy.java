@@ -8,7 +8,8 @@ import com.app.policy.annotation.PolicyType;
 @PolicyType(action = Action.BAN)
 public class BanPolicy implements Policy {
     @Override
-    public void check(PolicyContext context) {
+    public boolean check(PolicyContext context) {
 
+        return false;
     }
 }

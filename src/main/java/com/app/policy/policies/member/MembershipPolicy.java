@@ -5,7 +5,8 @@ import com.app.policy.PolicyContext;
 
 public class MembershipPolicy implements Policy {
     @Override
-    public void check(PolicyContext context) {
+    public boolean check(PolicyContext context) {
 
+        return false;
     }
 }

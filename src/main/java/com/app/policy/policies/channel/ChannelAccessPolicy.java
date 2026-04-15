@@ -8,7 +8,8 @@ import com.app.policy.annotation.PolicyType;
 @PolicyType(action = Action.MANAGE_CHANNELS)
 public class ChannelAccessPolicy implements Policy {
     @Override
-    public void check(PolicyContext context) {
+    public boolean check(PolicyContext context) {
 
+        return false;
     }
 }
