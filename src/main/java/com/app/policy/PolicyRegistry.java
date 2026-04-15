@@ -27,7 +27,7 @@ public class PolicyRegistry {
 
             Action action = annotation.action();
 
-            policies.computeIfAbsent(action, k -> new ArrayList<>())
+            policies.computeIfAbsent(action, k -> Collections.synchronizedList(new ArrayList<>()))
                     .add(policy);
 
             registered.add(clazz);
