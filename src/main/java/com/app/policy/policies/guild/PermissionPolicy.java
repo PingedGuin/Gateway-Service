@@ -6,7 +6,9 @@ import com.app.policy.PolicyContext;
 import com.app.policy.Priority;
 import com.app.policy.annotation.PolicyType;
 
-@PolicyType(action = Action.MANAGE_PERMISSIONS,priority = Priority.MEDIUM)
+@PolicyType(action = {
+        Action.MANAGE_PERMISSIONS,Action.SEND_MESSAGE}
+        ,priority = Priority.MEDIUM)
 public class PermissionPolicy implements Policy {
     public boolean check(PolicyContext context) {
 

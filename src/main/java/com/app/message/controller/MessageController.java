@@ -12,11 +12,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MessageController {
 
-    private final SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
-    public MessageController(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
+    public MessageController() {
     }
 
     @MessageMapping("/sendMessage")
@@ -26,7 +22,6 @@ public class MessageController {
         }
 
         log.info("Message received: {}", msg.getContent());
-        messagingTemplate.convertAndSend("/topic/" + msg.getRoom(), msg);
         return msg;
     }
-}
+}  //todo change this

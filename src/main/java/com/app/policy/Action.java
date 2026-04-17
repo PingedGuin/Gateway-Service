@@ -11,5 +11,6 @@ public enum Action {
     MANAGE_NICKNAMES,
     MANAGE_VOICE_STATES,
     MANAGE_INVITES,
-    BAN
+    BAN,
+    SEND_MESSAGE
 }

@@ -12,9 +12,8 @@ public class MessageService {
         this.policyEngine = policyEngine;
     }
 
-    public void sendMessage(String message) {
-        PolicyContext PolicyContext = new PolicyContext();
-        policyEngine.check(PolicyContext );
+    public void sendMessage(PolicyContext context) {
+
     }
 // 1. check if user banned
 // 2. check membership (user in guild)
