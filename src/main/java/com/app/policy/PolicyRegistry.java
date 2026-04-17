@@ -1,10 +1,13 @@
 package com.app.policy;
 
 import com.app.policy.annotation.PolicyType;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+@Component
 public class PolicyRegistry {
 
     private final Map<Action, List<Policy>> policies = new ConcurrentHashMap<>();
@@ -12,7 +15,8 @@ public class PolicyRegistry {
 
     public void register(Class<?> clazz) {
 
-        if (registered.contains(clazz)) return;
+        if (!registered.add(clazz)) return;
+
 
         if (!clazz.isAnnotationPresent(PolicyType.class)) return;
 
@@ -27,7 +31,7 @@ public class PolicyRegistry {
 
             Action action = annotation.action();
 
-            policies.computeIfAbsent(action, k -> Collections.synchronizedList(new ArrayList<>()))
+            policies.computeIfAbsent(action, k -> new CopyOnWriteArrayList<>())
                     .add(policy);
 
             registered.add(clazz);

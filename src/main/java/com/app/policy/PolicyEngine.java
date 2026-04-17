@@ -1,8 +1,10 @@
 package com.app.policy;
 
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+@Service
 public class PolicyEngine {
     private final PolicyRegistry registry;
 
