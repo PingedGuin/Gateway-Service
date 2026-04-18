@@ -1,4 +1,4 @@
-package com.app.message.data;
+package com.app.message.data.dto;
 
 import com.app.policy.PolicyContext;
 import lombok.Getter;

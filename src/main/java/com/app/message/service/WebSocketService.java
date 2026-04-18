@@ -1,6 +1,6 @@
 package com.app.message.service;
 
-import com.app.message.data.ChatMessageDto;
+import com.app.message.data.dto.ChatMessageDto;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
