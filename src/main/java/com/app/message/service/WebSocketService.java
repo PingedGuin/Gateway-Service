@@ -13,6 +13,10 @@ public class WebSocketService {
     }
 
     public void sendMessage(ChatMessageDto messageDto) {
+        String destination =
+                "/topic/guild/" + messageDto.getGuildId()
+                        + "/channel/" + messageDto.getChannelId();
 
+        messagingTemplate.convertAndSend(destination, messageDto);
     }
 }

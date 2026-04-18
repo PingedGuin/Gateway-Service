@@ -9,4 +9,5 @@ public class PolicyContext {
     private String channelId;
     private String permission;
     private Action action;
+    private String content;
 }
