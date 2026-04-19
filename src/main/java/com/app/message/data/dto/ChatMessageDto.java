@@ -1,21 +1,23 @@
 package com.app.message.data.dto;
 
 import com.app.policy.PolicyContext;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+import java.time.Instant;
+
+@Data
 public class ChatMessageDto {
+    private Long messageId;
+    private Long userId;
     private String sender;
     private String channelId;
-    private final String guildId;
-    private String timestamp;
+    private String guildId;
+    private Instant CreatedAt;
     private String type;
-    private final String content;
+    private String content;
 
-    public ChatMessageDto(PolicyContext context) {
-        this.channelId = context.getChannelId();
-        this.content = context.getContent();
-        this.channelId = context.getChannelId();
-        this.guildId = context.getGuildId();
+    public ChatMessageDto() {
+
     }
 }

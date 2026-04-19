@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class PolicyContext {
-    private String userId;
+    private Long userId;
     private String guildId;
     private String channelId;
     private String permission;

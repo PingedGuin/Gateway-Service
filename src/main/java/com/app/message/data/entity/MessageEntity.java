@@ -3,10 +3,12 @@ package com.app.message.data.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 import java.time.Instant;
 
 @Entity
+@Data
 public class MessageEntity {
 
     @Id
@@ -19,7 +21,7 @@ public class MessageEntity {
 
     private String channelId;
 
-    private String userId;
+    private Long userId;
 
     private Instant createdAt;
 
