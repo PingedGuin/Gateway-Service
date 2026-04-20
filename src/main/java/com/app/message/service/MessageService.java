@@ -14,6 +14,7 @@ public class MessageService {
     private final PolicyEngine policyEngine;
     private final WebSocketService webSocketService;
     private final MessageRepository messageRepository;
+
     public MessageService(PolicyEngine policyEngine, WebSocketService webSocketService, MessageRepository messageRepository) {
         this.policyEngine = policyEngine;
         this.webSocketService = webSocketService;
@@ -24,11 +25,12 @@ public class MessageService {
         // policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
-        messageRepository.save(messageEntity);
-        ChatMessageDto dto = toDto(messageEntity);
+        var savedMessage = messageRepository.save(messageEntity);
+        ChatMessageDto dto = toDto(savedMessage);
 
         webSocketService.sendMessage(dto);
     }
+
     private MessageEntity toMessageEntity(PolicyContext context) {
         MessageEntity entity = new MessageEntity();
 

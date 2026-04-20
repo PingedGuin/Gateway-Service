@@ -27,14 +27,14 @@ public class PolicyRegistry {
         PolicyType annotation = clazz.getAnnotation(PolicyType.class);
 
         try {
+            Action[] actions = annotation.action();
             Policy policy = (Policy) clazz.getDeclaredConstructor().newInstance();
 
-            Action action = annotation.action();
-
-            policies.computeIfAbsent(action, k -> new CopyOnWriteArrayList<>())
-                    .add(policy);
-
-            registered.add(clazz);
+            for (Action act : actions) {
+                policies
+                        .computeIfAbsent(act, k -> new CopyOnWriteArrayList<>())
+                        .add(policy);
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to register policy: " + clazz.getName(), e);

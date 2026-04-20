@@ -1,9 +1,6 @@
 package com.app.message.data.dto;
 
-import com.app.policy.PolicyContext;
 import lombok.Data;
-import lombok.Getter;
-
 import java.time.Instant;
 
 @Data

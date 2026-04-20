@@ -19,4 +19,9 @@ public class WebSocketService {
 
         messagingTemplate.convertAndSend(destination, messageDto);
     }
+    public void subscribe(String channelId) {
+        String destination = "/topic/guild/" + channelId;
+
+        
+    }
 }
