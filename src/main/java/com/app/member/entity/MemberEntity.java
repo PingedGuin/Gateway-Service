@@ -22,7 +22,8 @@ public class MemberEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<RoleEntity> roles;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @MapsId("userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserInfoEntity userInfo;
 }

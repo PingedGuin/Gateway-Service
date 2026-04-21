@@ -1,27 +1,48 @@
 package com.app.message.service;
 
 import com.app.message.data.dto.ChatMessageDto;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.app.websocket.Session;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-@Service
-public class WebSocketService {
-    private final SimpMessagingTemplate messagingTemplate;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.socket.TextMessage;
 
-    public WebSocketService(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
+@Service
+@Getter
+public class WebSocketService {
+    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    Map<String, Set<String>> channelUsers;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public void addSession(String userId, Session session) {
+        sessions.put(userId, session);
+    }
+
+    public void removeSession(String userId) {
+        sessions.remove(userId);
     }
 
     public void sendMessage(ChatMessageDto messageDto) {
-        String destination =
-                "/topic/guild/" + messageDto.getGuildId()
-                        + "/channel/" + messageDto.getChannelId();
+        String channelId = messageDto.getChannelId();
+        Set<String> users = channelUsers.get(channelId);
 
-        messagingTemplate.convertAndSend(destination, messageDto);
-    }
-    public void subscribe(String channelId) {
-        String destination = "/topic/guild/" + channelId;
+        if (users == null) return;
 
-        
+        for (String userId : users) {
+            Session sessionWrapper = sessions.get(userId);
+
+            if (sessionWrapper != null) {
+                try {
+                    String json = objectMapper.writeValueAsString(messageDto);
+                    sessionWrapper.getSession().sendMessage(new TextMessage(json));
+                } catch (Exception e) {
+                    // handle
+                }
+            }
+        }
     }
 }

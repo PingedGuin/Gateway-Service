@@ -50,7 +50,8 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
-
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
 }
 
 
