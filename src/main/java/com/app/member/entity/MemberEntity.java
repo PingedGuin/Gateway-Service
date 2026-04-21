@@ -14,15 +14,14 @@ import java.util.List;
 @Setter
 public class MemberEntity {
 
-    @EmbeddedId
-    private MemberId id;
+    @Id
+    private Long id;
 
     private String username;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<RoleEntity> roles;
 
-    @MapsId("userId")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfoEntity userInfo;
