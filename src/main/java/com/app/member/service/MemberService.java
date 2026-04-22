@@ -1,6 +1,5 @@
 package com.app.member.service;
 
-import com.app.guild.service.GuildService;
 import com.app.member.dto.MemberDto;
 import com.app.member.entity.MemberEntity;
 import com.app.member.repository.MemberRepository;
@@ -27,7 +26,7 @@ public class MemberService {
     public MemberPermissionDto getMemberContext(Long userId, Long guildId) {
 
         MemberEntity entity = memberRepository
-                .findByUserIdAndGuildId(userId, guildId)
+                .findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         List<RoleDto> roles = entity.getRoles()
