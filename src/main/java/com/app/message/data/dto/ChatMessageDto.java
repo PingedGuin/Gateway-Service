@@ -1,5 +1,6 @@
 package com.app.message.data.dto;
 
+import com.app.policy.Action;
 import lombok.Data;
 import java.time.Instant;
 
@@ -13,6 +14,8 @@ public class ChatMessageDto {
     private Instant CreatedAt;
     private String type;
     private String content;
+    private String permission;
+    private Action action;
 
     public ChatMessageDto() {
 

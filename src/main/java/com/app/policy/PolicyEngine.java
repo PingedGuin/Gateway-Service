@@ -1,6 +1,7 @@
 package com.app.policy;
 
 
+import com.app.message.data.dto.ChatMessageDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class PolicyEngine {
         this.registry = registry;
     }
 
-    public void check(PolicyContext context) {
+    public void check(ChatMessageDto context) {
 
         List<Policy> policies = registry.getPolicies(context.getAction());
 

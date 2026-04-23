@@ -1,5 +1,6 @@
 package com.app.message.service;
 
+import com.app.message.config.jackson.JacksonConfig;
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.websocket.Session;
 import lombok.Getter;
@@ -17,7 +18,6 @@ public class WebSocketService {
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> channelUsers = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper;
-
     WebSocketService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
