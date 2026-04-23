@@ -4,6 +4,7 @@ import com.app.message.data.dto.ChatMessageDto;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
+@Deprecated
 @Service
 public class RedisPublisher {
 
