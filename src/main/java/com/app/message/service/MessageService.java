@@ -3,7 +3,6 @@ package com.app.message.service;
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.message.data.entity.MessageEntity;
 import com.app.message.repository.MessageRepository;
-import com.app.policy.PolicyContext;
 import com.app.policy.PolicyEngine;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void handleSendMsgReq(PolicyContext context) {
+    public void handleSendMsgReq(ChatMessageDto context) {
         // policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
@@ -31,7 +30,7 @@ public class MessageService {
         webSocketService.sendMessage(dto);
     }
 
-    private MessageEntity toMessageEntity(PolicyContext context) {
+    private MessageEntity toMessageEntity(ChatMessageDto context) {
         MessageEntity entity = new MessageEntity();
 
         entity.setContent(context.getContent());
