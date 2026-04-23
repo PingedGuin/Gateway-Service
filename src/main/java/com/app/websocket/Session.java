@@ -10,4 +10,7 @@ public class Session {
     String username;
     Long permission;
 
+    public Session(WebSocketSession session) {
+        this.session = session;
+    }
 }

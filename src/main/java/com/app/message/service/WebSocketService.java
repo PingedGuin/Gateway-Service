@@ -15,8 +15,12 @@ import org.springframework.web.socket.TextMessage;
 @Getter
 public class WebSocketService {
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
-    Map<String, Set<String>> channelUsers;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Map<String, Set<String>> channelUsers = new ConcurrentHashMap<>();
+    private final ObjectMapper objectMapper;
+
+    WebSocketService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     public void addSession(String userId, Session session) {
         sessions.put(userId, session);
@@ -32,17 +36,32 @@ public class WebSocketService {
 
         if (users == null) return;
 
-        for (String userId : users) {
-            Session sessionWrapper = sessions.get(userId);
+        try {
+            String json = objectMapper.writeValueAsString(messageDto);
 
-            if (sessionWrapper != null) {
-                try {
-                    String json = objectMapper.writeValueAsString(messageDto);
+            for (String userId : users) {
+                Session sessionWrapper = sessions.get(userId);
+
+                if (sessionWrapper != null) {
                     sessionWrapper.getSession().sendMessage(new TextMessage(json));
-                } catch (Exception e) {
-                    // handle
                 }
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void joinChannel(String channelId, String userId) {
+        channelUsers
+                .computeIfAbsent(channelId, k -> ConcurrentHashMap.newKeySet())
+                .add(userId);
+    }
+
+    public void leaveChannel(String channelId, String userId) {
+        Set<String> users = channelUsers.get(channelId);
+        if (users != null) {
+            users.remove(userId);
         }
     }
 }
