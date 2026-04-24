@@ -1,47 +1,39 @@
 package com.app.policy;
 
 import com.app.policy.annotation.PolicyType;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class PolicyRegistry {
 
-    private final Map<Action, List<Policy>> policies = new ConcurrentHashMap<>();
-    private final Set<Class<?>> registered = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Map<Action, List<Policy>> policiesByAction = new EnumMap<>(Action.class);
 
-    public void register(Class<?> clazz) {
+    private final List<Policy> policies;
 
-        if (!registered.add(clazz)) return;
+    public PolicyRegistry(List<Policy> policies) {
+        this.policies = policies;
+    }
 
+    @PostConstruct
+    public void init() {
 
-        if (!clazz.isAnnotationPresent(PolicyType.class)) return;
+        for (Policy policy : policies) {
 
-        if (!Policy.class.isAssignableFrom(clazz)) {
-            throw new IllegalArgumentException("Class must implement Policy: " + clazz.getName());
-        }
+            PolicyType meta = policy.getClass().getAnnotation(PolicyType.class);
+            if (meta == null) continue;
 
-        PolicyType annotation = clazz.getAnnotation(PolicyType.class);
-
-        try {
-            Action[] actions = annotation.action();
-            Policy policy = (Policy) clazz.getDeclaredConstructor().newInstance();
-
-            for (Action act : actions) {
-                policies
-                        .computeIfAbsent(act, k -> new CopyOnWriteArrayList<>())
+            for (Action action : meta.action()) {
+                policiesByAction
+                        .computeIfAbsent(action, k -> new ArrayList<>())
                         .add(policy);
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to register policy: " + clazz.getName(), e);
         }
     }
 
     public List<Policy> getPolicies(Action action) {
-        return policies.getOrDefault(action, Collections.emptyList());
+        return policiesByAction.getOrDefault(action, Collections.emptyList());
     }
 }

@@ -20,9 +20,10 @@ public class MessageController {
     public SocketMessage send(@Payload ChatMessageDto chatMessageDto) {
         if (msg.getContent() == null || msg.getContent().isEmpty()) {
             throw new RuntimeException("Invalid message");
-        }policyEngine.check(chatMessageDto);
+        }
 
-        log.info("Message received: {}", msg.getContent());
+        policyEngine.check(chatMessageDto);
+
         return msg;
     }
 }  //todo change this
