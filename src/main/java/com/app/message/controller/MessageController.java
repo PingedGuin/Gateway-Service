@@ -1,6 +1,7 @@
 package com.app.message.controller;
 
 import com.app.message.data.dto.ChatMessageDto;
+import com.app.message.service.MessageService;
 import com.app.policy.PolicyEngine;
 import com.app.register.dtos.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -11,19 +12,17 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class MessageController {
-    private final PolicyEngine policyEngine;
-    public MessageController(PolicyEngine policyEngine) {
-        this.policyEngine = policyEngine;
+    private final MessageService messageService;
+
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @MessageMapping("/sendMessage")
-    public SocketMessage send(@Payload ChatMessageDto chatMessageDto) {
-        if (msg.getContent() == null || msg.getContent().isEmpty()) {
+    public void send(@Payload ChatMessageDto chatMessageDto) {
+        if (chatMessageDto == null) {
             throw new RuntimeException("Invalid message");
         }
-
-        policyEngine.check(chatMessageDto);
-
-        return msg;
+        messageService.handleSendMsgReq(chatMessageDto);
     }
-}  //todo change this
+}
