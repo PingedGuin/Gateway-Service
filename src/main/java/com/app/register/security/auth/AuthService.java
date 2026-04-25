@@ -26,26 +26,45 @@ public class AuthService {
     }
 
     public LoginResponseDto login(LoginRequest request) {
-        UserInfoEntity user = userRepository.findByGmail(request.getGmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        if (!passwordEncoderService.matches(request.getPassword(), user.getPassword()))
+        System.out.println(request.getEmail());
+        System.out.println(request.getPassword());
+        UserInfoEntity user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
+
+        if (!passwordEncoderService.matches(
+                request.getPassword(),
+                user.getPassword())) {
+
             throw new BadCredentialsException("Invalid credentials");
-
+        }
+        System.out.println("RAW: " + request.getPassword());
+        System.out.println("DB : " + user.getPassword());
+        System.out.println(passwordEncoderService.matches(
+                request.getPassword(),
+                user.getPassword()
+        ));
 
         UserSessionEntity session = new UserSessionEntity();
         session.setUserId(user.getId().toString());
         session.setSessionId(UUID.randomUUID().toString());
 
         session = sessionService.getOrCreateSession(session);
+
         LocalDate expireDate = LocalDate.now().plusDays(7);
-        String token =  tokenService.generateAccessToken(
+
+        String token = tokenService.generateAccessToken(
                 user.getId().toString(),
                 session.getSessionId(),
                 expireDate.toString()
         );
-         return mapToLoginResponseDto(user,session.getSessionId(),expireDate.toString(),token);
 
+        return mapToLoginResponseDto(
+                user,
+                session.getSessionId(),
+                expireDate.toString(),
+                token
+        );
     }
     private LoginResponseDto mapToLoginResponseDto(UserInfoEntity user,String sessionId,String expireDate,String accessToken) {
         return new LoginResponseDto(accessToken, user.getUsername(), expireDate,user.getId().toString(),sessionId);

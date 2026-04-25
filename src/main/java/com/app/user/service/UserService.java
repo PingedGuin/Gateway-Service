@@ -14,15 +14,15 @@ public class UserService {
     }
     //todo add cheche tho
 
-    public UserInfo getUserInfo(String gmail) {
-        UserInfoEntity entity = userInfoRepository.findByGmail(gmail)
+    public UserInfo getUserInfo(String email) {
+        UserInfoEntity entity = userInfoRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return entityToDto(entity);
     }
 
     private UserInfo entityToDto(UserInfoEntity entity) {
-        return new UserInfo(entity.getUsername(), entity.getGmail());
+        return new UserInfo(entity.getUsername(), entity.getEmail());
     }
 
 }

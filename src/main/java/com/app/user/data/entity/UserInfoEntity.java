@@ -4,6 +4,7 @@ import com.app.register.dtos.register.RegisterRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @Entity
@@ -12,21 +13,21 @@ import lombok.NoArgsConstructor;
 public class UserInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
-    private String gmail;
+    @Column(name = "email", unique = true,nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
     public UserInfoEntity(RegisterRequest request) {
         this.username = request.getUsername();
-        this.gmail = request.getEmail();
+        this.email = request.getEmail();
         this.password = request.getPassword();
     }
 }

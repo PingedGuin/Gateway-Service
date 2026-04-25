@@ -6,6 +6,6 @@ import lombok.Getter;
 @NotBlank
 @Getter
 public class LoginRequest {
-    String gmail;
+    String email;
     String password;
 }

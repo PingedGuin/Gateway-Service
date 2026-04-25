@@ -2,6 +2,6 @@ package com.app.user.data.dto;
 
 import lombok.Data;
 
-public record UserInfo (String username, String gmail){
+public record UserInfo (String username, String email){
 
 }

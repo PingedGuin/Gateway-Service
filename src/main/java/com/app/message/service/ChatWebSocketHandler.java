@@ -2,21 +2,24 @@ package com.app.message.service;
 
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.websocket.Session;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final WebSocketService webSocketService;
+    private final ObjectMapper objectMapper;
 
-    public ChatWebSocketHandler(WebSocketService webSocketService) {
+    public ChatWebSocketHandler(WebSocketService webSocketService,
+                                ObjectMapper objectMapper) {
         this.webSocketService = webSocketService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -29,8 +32,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) {
         String payload = message.getPayload();
-
-        ChatMessageDto dto = new ObjectMapper().readValue(payload, ChatMessageDto.class);
+        ChatMessageDto dto;
+        try {
+            dto = objectMapper.readValue(payload, ChatMessageDto.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         webSocketService.sendMessage(dto);
     }
