@@ -26,7 +26,7 @@ public class MemberService {
     public MemberPermissionDto getMemberContext(Long userId, Long guildId) {
 
         MemberEntity entity = memberRepository
-                .findByUserId(userId)
+                .findByUserInfo_Id(userId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         List<RoleDto> roles = entity.getRoles()

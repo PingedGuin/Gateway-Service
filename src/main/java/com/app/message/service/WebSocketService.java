@@ -17,10 +17,7 @@ import org.springframework.web.socket.TextMessage;
 public class WebSocketService {
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> channelUsers = new ConcurrentHashMap<>();
-    private final ObjectMapper objectMapper;
-    WebSocketService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void addSession(String userId, Session session) {
         sessions.put(userId, session);

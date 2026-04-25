@@ -21,8 +21,7 @@ public class MessageService {
     }
 
     public void handleSendMsgReq(ChatMessageDto context) {
-        // policyEngine.check(context);
-
+        policyEngine.check(context);
         MessageEntity messageEntity = toMessageEntity(context);
         var savedMessage = messageRepository.save(messageEntity);
         ChatMessageDto dto = toDto(savedMessage);
