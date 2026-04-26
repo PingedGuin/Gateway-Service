@@ -1,9 +1,12 @@
 package com.app.message.service;
 
 import com.app.message.data.dto.ChatMessageDto;
+import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.data.entity.MessageEntity;
 import com.app.message.repository.MessageRepository;
 import com.app.policy.PolicyEngine;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -30,16 +33,19 @@ public class MessageService {
         webSocketService.sendMessage(dto);
     }
 
-    public List<ChatMessageDto> getGeneralMessages() {
+    public List<ChatMessageDto> getGeneralMessages(LoadMessagesRequest loadMsgequest) {
+        Pageable page = PageRequest.of(loadMsgequest.getLimit(), loadMsgequest.getOffset());
+        messageRepository.getGeneralMessages(loadMsgequest.getChannelId(), page);
         return null; //todo : let method return messages from db-cache with pagination :D
     }
+
     private MessageEntity toMessageEntity(ChatMessageDto context) {
         MessageEntity entity = new MessageEntity();
 
         entity.setContent(context.getContent());
         entity.setGuildId(context.getGuildId());
         entity.setChannelId(context.getChannelId());
-        entity.setUserId(context.getUserId());
+        entity.setUserId(context.getSenderId());
         entity.setCreatedAt(Instant.now());
 
         return entity;
@@ -51,7 +57,7 @@ public class MessageService {
         dto.setContent(entity.getContent());
         dto.setGuildId(entity.getGuildId());
         dto.setChannelId(entity.getChannelId());
-        dto.setUserId(entity.getUserId());
+        dto.setSenderId(entity.getUserId());
         dto.setCreatedAt(entity.getCreatedAt());
 
         return dto;

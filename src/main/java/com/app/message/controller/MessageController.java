@@ -1,6 +1,7 @@
 package com.app.message.controller;
 
 import com.app.message.data.dto.ChatMessageDto;
+import com.app.message.data.dto.LoadMessagesRequest;
 import com.app.message.service.MessageService;
 import com.app.policy.PolicyEngine;
 import com.app.register.dtos.socket.SocketMessage;
@@ -33,7 +34,8 @@ public class MessageController {
         log.info("socket message: {}", message);
     }
     @GetMapping("/messages/general")
-    public List<ChatMessageDto> getMessages() {
-        return messageService.getGeneralMessages();
+    public List<ChatMessageDto> getMessages(@Payload LoadMessagesRequest loadMessagesRequest) {
+
+        return messageService.getGeneralMessages(loadMessagesRequest);
     }
 }
