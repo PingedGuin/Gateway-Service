@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class LoadMessagesRequest {
     private String channelId;
-    private int limit;
-    private int offset;
+    private int pageSize;
+    private int pageNumber;
 }
