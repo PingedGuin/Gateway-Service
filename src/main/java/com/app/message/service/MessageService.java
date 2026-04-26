@@ -9,10 +9,14 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -24,6 +28,7 @@ public class MessageService {
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
+    private final Map<String, Long> channelVersion = new ConcurrentHashMap<>();
 
     public MessageService(PolicyEngine policyEngine, WebSocketService webSocketService, MessageRepository messageRepository) {
         this.policyEngine = policyEngine;
@@ -33,20 +38,29 @@ public class MessageService {
 
     public void handleSendMsgReq(ChatMessageDto context) {
         policyEngine.check(context);
-        MessageEntity messageEntity = toMessageEntity(context);
-        var savedMessage = messageRepository.save(messageEntity);
-        ChatMessageDto dto = toDto(savedMessage);
 
+        MessageEntity messageEntity = toMessageEntity(context);
+        MessageEntity savedMessage = messageRepository.save(messageEntity);
+
+        ChatMessageDto dto = toDto(savedMessage);
+        bumpVersion(context.getChannelId());
+
+        msgCache.asMap().keySet().removeIf(key ->
+                key.startsWith(context.getChannelId())
+
+        );
         webSocketService.sendMessage(dto);
     }
 
     public List<ChatMessageDto> getGeneralMessages(LoadMessagesRequest request) {
-        String key = request.getChannelId() + ":" +
-                request.getPageSize() + ":" +
-                request.getPageNumber();
+        long version = getVersion(request.getChannelId());
 
-        List<ChatMessageDto> cached =
-                msgCache.getIfPresent(key);
+        String key = request.getChannelId() + ":" +
+                version + ":" +
+                request.getPageNumber() + ":" +
+                request.getPageSize();
+
+        List<ChatMessageDto> cached = msgCache.getIfPresent(key);
 
         if (cached != null) return cached;
 
@@ -93,6 +107,14 @@ public class MessageService {
         dto.setCreatedAt(entity.getCreatedAt());
 
         return dto;
+    }
+
+    private long getVersion(String channelId) {
+        return channelVersion.getOrDefault(channelId, 0L);
+    }
+
+    private void bumpVersion(String channelId) {
+        channelVersion.merge(channelId, 1L, Long::sum);
     }
 
 // 1. check if user banned
