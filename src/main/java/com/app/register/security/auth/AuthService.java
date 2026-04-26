@@ -26,9 +26,6 @@ public class AuthService {
     }
 
     public LoginResponseDto login(LoginRequest request) {
-
-        System.out.println(request.getEmail());
-        System.out.println(request.getPassword());
         UserInfoEntity user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
 
@@ -38,13 +35,6 @@ public class AuthService {
 
             throw new BadCredentialsException("Invalid credentials");
         }
-        System.out.println("RAW: " + request.getPassword());
-        System.out.println("DB : " + user.getPassword());
-        System.out.println(passwordEncoderService.matches(
-                request.getPassword(),
-                user.getPassword()
-        ));
-
         UserSessionEntity session = new UserSessionEntity();
         session.setUserId(user.getId().toString());
         session.setSessionId(UUID.randomUUID().toString());

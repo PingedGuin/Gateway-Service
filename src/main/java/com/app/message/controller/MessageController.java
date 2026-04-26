@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -24,5 +27,13 @@ public class MessageController {
             throw new RuntimeException("Invalid message");
         }
         messageService.handleSendMsgReq(chatMessageDto);
+    }
+    @MessageMapping("/socket")
+    public void socket(@Payload SocketMessage message) {
+        log.info("socket message: {}", message);
+    }
+    @GetMapping("/messages/general")
+    public List<ChatMessageDto> getMessages() {
+        return messageService.getGeneralMessages();
     }
 }

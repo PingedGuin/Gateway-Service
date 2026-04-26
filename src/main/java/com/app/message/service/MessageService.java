@@ -7,6 +7,7 @@ import com.app.policy.PolicyEngine;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -29,6 +30,9 @@ public class MessageService {
         webSocketService.sendMessage(dto);
     }
 
+    public List<ChatMessageDto> getGeneralMessages() {
+        return null; //todo : let method return messages from db-cache with pagination :D
+    }
     private MessageEntity toMessageEntity(ChatMessageDto context) {
         MessageEntity entity = new MessageEntity();
 
@@ -52,6 +56,7 @@ public class MessageService {
 
         return dto;
     }
+
 // 1. check if user banned
 // 2. check membership (user in guild)
 // 3. check channel access
