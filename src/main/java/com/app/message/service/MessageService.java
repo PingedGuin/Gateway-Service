@@ -7,49 +7,52 @@ import com.app.message.repository.MessageRepository;
 import com.app.policy.PolicyEngine;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class MessageService {
     private final PolicyEngine policyEngine;
     private final WebSocketService webSocketService;
     private final MessageRepository messageRepository;
+    private final Cache<String, Long> channelVersion = Caffeine.newBuilder()
+            .maximumSize(100_00)
+            .expireAfterWrite(10,TimeUnit.MINUTES)
+            .build();
     private final Cache<String, List<ChatMessageDto>> msgCache = Caffeine.newBuilder()
             .maximumSize(100_000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
-    private final Map<String, Long> channelVersion = new ConcurrentHashMap<>();
 
     public MessageService(PolicyEngine policyEngine, WebSocketService webSocketService, MessageRepository messageRepository) {
         this.policyEngine = policyEngine;
         this.webSocketService = webSocketService;
         this.messageRepository = messageRepository;
     }
-
+    @Transactional
     public void handleSendMsgReq(ChatMessageDto context) {
         policyEngine.check(context);
 
         MessageEntity messageEntity = toMessageEntity(context);
-        MessageEntity savedMessage = messageRepository.save(messageEntity);
+        try {
+            MessageEntity savedMessage = messageRepository.save(messageEntity);
 
-        ChatMessageDto dto = toDto(savedMessage);
-        bumpVersion(context.getChannelId());
+            ChatMessageDto dto = toDto(savedMessage);
+            bumpVersion(context.getChannelId());
 
-        msgCache.asMap().keySet().removeIf(key ->
-                key.startsWith(context.getChannelId())
-
-        );
-        webSocketService.sendMessage(dto);
+            webSocketService.sendMessage(dto);
+        }catch (Exception e) {
+            log.error("Failed to save message", e);
+            throw new RuntimeException("Message send failed", e);
+        }
     }
 
     public List<ChatMessageDto> getGeneralMessages(LoadMessagesRequest request) {
@@ -93,7 +96,7 @@ public class MessageService {
         entity.setChannelId(context.getChannelId());
         entity.setUserId(context.getSenderId());
         entity.setCreatedAt(Instant.now());
-
+        entity.setMessageId(context.getMessageId());
         return entity;
     }
 
@@ -105,16 +108,17 @@ public class MessageService {
         dto.setChannelId(entity.getChannelId());
         dto.setSenderId(entity.getUserId());
         dto.setCreatedAt(entity.getCreatedAt());
-
+        dto.setMessageId(entity.getMessageId());
         return dto;
     }
 
     private long getVersion(String channelId) {
-        return channelVersion.getOrDefault(channelId, 0L);
+        Long version = channelVersion.getIfPresent(channelId);
+        return version != null ? version : 0L;
     }
 
     private void bumpVersion(String channelId) {
-        channelVersion.merge(channelId, 1L, Long::sum);
+        channelVersion.put(channelId, getVersion(channelId) + 1);
     }
 
 // 1. check if user banned

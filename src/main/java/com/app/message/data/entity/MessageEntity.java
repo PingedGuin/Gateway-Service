@@ -17,7 +17,7 @@ public class MessageEntity {
     private Long id;
 
     @Column(unique = true,nullable = false)
-    private String messageId;
+    private Long messageId;
 
     private String content;
 
