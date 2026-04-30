@@ -3,6 +3,7 @@ package com.app.message.service;
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.websocket.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+@Slf4j
 @Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
@@ -36,7 +38,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         try {
             dto = objectMapper.readValue(payload, ChatMessageDto.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error parsing message: {}", payload, e);
             return;
         }
 

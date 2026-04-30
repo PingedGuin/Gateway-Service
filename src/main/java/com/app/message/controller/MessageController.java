@@ -22,7 +22,7 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @MessageMapping("/sendMessage")
+    @MessageMapping("messages/sendMessage")
     public void send(@Payload ChatMessageDto chatMessageDto) {
         if (chatMessageDto == null) {
             throw new RuntimeException("Invalid message");
