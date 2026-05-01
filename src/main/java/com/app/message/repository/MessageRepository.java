@@ -8,10 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
-    MessageEntity findByMessageId(String messageId);
+
+    Optional<MessageEntity> findById(Long id);
     @Query("""
 SELECT m
 FROM MessageEntity m
@@ -21,4 +23,5 @@ ORDER BY m.createdAt DESC
     List<MessageEntity> getGeneralMessages(
             @Param("channelId") String channelId,
             Pageable pageable
-    );}
+    );
+}

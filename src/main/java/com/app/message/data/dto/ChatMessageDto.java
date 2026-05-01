@@ -11,7 +11,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatMessageDto {
-    private Long messageId;
     private Long senderId;
     private String channelId;
     private String guildId;
