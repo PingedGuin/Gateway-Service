@@ -94,7 +94,7 @@ public class MessageService {
         entity.setContent(context.getContent());
         entity.setGuildId(context.getGuildId());
         entity.setChannelId(context.getChannelId());
-        entity.setUserId(context.getSenderId());
+        entity.setSenderId(context.getSenderId());
         entity.setCreatedAt(Instant.now());
         return entity;
     }
@@ -105,7 +105,7 @@ public class MessageService {
         dto.setContent(entity.getContent());
         dto.setGuildId(entity.getGuildId());
         dto.setChannelId(entity.getChannelId());
-        dto.setSenderId(entity.getUserId());
+        dto.setSenderId(entity.getSenderId());
         dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }

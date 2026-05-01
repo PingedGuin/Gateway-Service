@@ -27,6 +27,9 @@ public class MessageController {
         if (chatMessageDto == null) {
             throw new RuntimeException("Invalid message");
         }
+        chatMessageDto.setChannelId("1221");
+        chatMessageDto.setGuildId("1221");
+        chatMessageDto.setSenderId(3134132L);
         messageService.handleSendMsgReq(chatMessageDto);
     }
     @MessageMapping("/socket")

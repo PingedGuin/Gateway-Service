@@ -22,8 +22,8 @@ public class MessageEntity {
     @Column(name = "channel_id")
     private String channelId;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "senderId")
+    private Long senderId;
 
     @Column(name = "created_at")
     private Instant createdAt;
