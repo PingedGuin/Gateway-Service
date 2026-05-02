@@ -1,5 +1,6 @@
 package com.app.message.controller;
 
+import com.app.channel.service.ChannelService;
 import com.app.message.data.dto.chat.command.JoinRequest;
 import com.app.message.data.dto.chat.command.LeaveRequest;
 import com.app.message.data.dto.chat.command.TypingRequest;
@@ -9,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ChatController {
+    private final ChannelService channelService;
+
+    public ChatController(ChannelService channelService) {
+        this.channelService = channelService;
+    }
+
     @MessageMapping("/channel.join")
     public void join(@RequestBody JoinRequest req) {
     }

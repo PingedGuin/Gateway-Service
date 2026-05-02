@@ -1,6 +1,5 @@
 package com.app.message.service;
 
-import com.app.message.config.jackson.JacksonConfig;
 import com.app.message.data.dto.ChatMessageDto;
 import com.app.websocket.Session;
 import lombok.Getter;
@@ -15,28 +14,28 @@ import org.springframework.web.socket.TextMessage;
 @Service
 @Getter
 public class WebSocketService {
-    private final Map<String, Session> sessions = new ConcurrentHashMap<>();
-    private final Map<String, Set<String>> channelUsers = new ConcurrentHashMap<>();
+    private final Map<Long, Session> sessions = new ConcurrentHashMap<>();
+    private final Map<Long, Set<Long>> channelUsers = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void addSession(String userId, Session session) {
+    public void addSession(Long userId, Session session) {
         sessions.put(userId, session);
     }
 
-    public void removeSession(String userId) {
+    public void removeSession(Long userId) {
         sessions.remove(userId);
     }
 
     public void sendMessage(ChatMessageDto messageDto) {
-        String channelId = messageDto.getChannelId();
-        Set<String> users = channelUsers.get(channelId);
+        Long channelId = messageDto.getChannelId();
+        Set<Long> users = channelUsers.get(channelId);
 
         if (users == null) return;
 
         try {
             String json = objectMapper.writeValueAsString(messageDto);
 
-            for (String userId : users) {
+            for (Long userId : users) {
                 Session sessionWrapper = sessions.get(userId);
 
                 if (sessionWrapper != null) {
@@ -49,14 +48,14 @@ public class WebSocketService {
         }
     }
 
-    public void joinChannel(String channelId, String userId) {
+    public void joinChannel(Long channelId, Long memberId) {
         channelUsers
                 .computeIfAbsent(channelId, k -> ConcurrentHashMap.newKeySet())
-                .add(userId);
+                .add(memberId);
     }
 
-    public void leaveChannel(String channelId, String userId) {
-        Set<String> users = channelUsers.get(channelId);
+    public void leaveChannel(Long channelId, Long userId) {
+        Set<Long> users = channelUsers.get(channelId);
         if (users != null) {
             users.remove(userId);
         }

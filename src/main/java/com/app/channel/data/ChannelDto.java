@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ChannelDto {
-    private String channelId;
+    private Long channelId;
     private String channelName;
     private String guildId;
     private String channelDescription;

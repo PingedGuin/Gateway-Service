@@ -4,9 +4,12 @@ import com.app.channel.Entity.ChannelEntity;
 import com.app.channel.repository.ChannelRepository;
 import com.app.guild.permission.data.dto.ChannelPermsDto;
 import com.app.member.entity.MemberOverride;
+import com.app.message.data.dto.chat.command.ChatRequest;
+import com.app.message.service.WebSocketService;
 import com.app.role.entity.RoleOverride;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,12 +17,14 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ChannelService {
     private final ChannelRepository channelRepository;
-
-    public ChannelService(ChannelRepository repository) {
+    private final WebSocketService webSocketService;
+    public ChannelService(ChannelRepository repository, WebSocketService webSocketService) {
         this.channelRepository = repository;
+        this.webSocketService = webSocketService;
     }
 
     private final Cache<String, ChannelEntity> cacheEntity = Caffeine.newBuilder()
@@ -32,13 +37,13 @@ public class ChannelService {
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
-    private final Cache<String, Map<Long, RoleOverride>> cacheOverrideRolesPerms = Caffeine.newBuilder()
+    private final Cache<Long, Map<Long, RoleOverride>> cacheOverrideRolesPerms = Caffeine.newBuilder()
             .maximumSize(50000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
 
-    public ChannelPermsDto getChannelPermissions(Long guildId, String channelId, Long memberId) {
+    public ChannelPermsDto getChannelPermissions(Long guildId, Long channelId, Long memberId) {
         String key = String.format("channel:%s:%s", guildId, channelId);
 
         ChannelEntity channel = cacheEntity.get(key, id -> channelRepository.findById(id)
@@ -59,8 +64,17 @@ public class ChannelService {
 
         return new ChannelPermsDto(channel.getGuildId(), channel.getId(), roleOverrides, memberOverride.orElse(null));
     }
+    public void checkUserPerms(ChatRequest request) {
+        if (request == null){
+            log.error("request is null");
+            return;
+        }
+        var channelPerms = getChannelPermissions(request.getGuildId(),request.getChannelId(),request.getUserId());
+        webSocketService.joinChannel(request.getChannelId(),request.getUserId());
+    }
 
-    public void evictChannel(String guildId, String channelId) {
+
+    public void evictChannel(String guildId, Long channelId) {
         cacheEntity.invalidate("channel:" + guildId + ":" + channelId);
 
         cacheOverrideRolesPerms.invalidate(channelId);
